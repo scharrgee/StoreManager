@@ -1,0 +1,4 @@
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.Entities\bin\Release\storeManager.Entities.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.Entities\bin\Release\storeManager.Entities.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.Entities\obj\Release\storeManager.Entities.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.Entities\obj\Release\storeManager.Entities.pdb

@@ -1,0 +1,4 @@
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.ViewModel\bin\Release\storeManager.ViewModel.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.ViewModel\bin\Release\storeManager.ViewModel.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.ViewModel\obj\Release\storeManager.ViewModel.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.ViewModel\obj\Release\storeManager.ViewModel.pdb

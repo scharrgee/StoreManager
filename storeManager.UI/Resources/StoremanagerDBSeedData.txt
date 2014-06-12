@@ -1,0 +1,195 @@
+USE [StoreManagerDB]
+GO
+
+--------------------------------------------------
+--SEED DATA
+---------------------------------------------------
+-----------------------------------------
+--Location
+----------------------------------------
+SET IDENTITY_INSERT [dbo].[Locations] ON
+GO
+
+INSERT INTO Locations(ID,Name)
+VALUES(9999,'DEFAULT LOCATION')
+
+SET IDENTITY_INSERT [dbo].[Locations] OFF
+GO
+--------------------------------
+--SaleStatuses------------------
+---------------------------------
+INSERT INTO SaleStatuses
+VALUES('Open')
+
+INSERT INTO SaleStatuses
+VALUES('Closed')
+
+INSERT INTO SaleStatuses
+VALUES('Quote')
+
+INSERT INTO SaleStatuses
+VALUES('Order')
+
+
+--------------------------------
+--PaymentModes
+--------------------------------
+INSERT INTO PaymentModes
+VALUES('Cash')
+
+INSERT INTO PaymentModes
+VALUES('Cheque')
+
+INSERT INTO PaymentModes
+VALUES('Voucher')
+
+
+--------------------------------
+--CardTypes
+--------------------------------
+INSERT INTO CardInformations
+VALUES('Customer')
+
+INSERT INTO CardInformations
+VALUES('Supplier')
+
+INSERT INTO CardInformations
+VALUES('Employee')
+
+INSERT INTO CardInformations
+VALUES('Personal')
+
+-----------------------------------------
+--Customers
+----------------------------------------
+SET IDENTITY_INSERT [dbo].[Customers] ON
+GO
+
+INSERT INTO Customers(CustomerID,Surname,DateAdded,CustomerName)
+VALUES(99999,'CASH CUSTOMER',GETDATE(),'CASH CUSTOMER')
+
+SET IDENTITY_INSERT [dbo].[Customers] OFF
+GO
+
+-----------------------------------------
+--Employees
+----------------------------------------
+SET IDENTITY_INSERT [dbo].[Employees] ON
+GO
+
+INSERT INTO Employees(EmployeeID,FisrtName)
+VALUES(99999,'DEFAULT SALES PERSON')
+
+INSERT INTO Employees(EmployeeID,FisrtName)
+VALUES(100999,'ADMIN')
+
+SET IDENTITY_INSERT [dbo].[Employees] OFF
+GO
+-----------------------------------------
+--Suppliers
+----------------------------------------
+SET IDENTITY_INSERT [dbo].[Suppliers] ON
+GO
+
+INSERT INTO Suppliers(SupplierID,Name)
+VALUES(9999,'DEFAULT SUPPLIER')
+
+SET IDENTITY_INSERT [dbo].[Suppliers] OFF
+GO
+-----------------------------------------
+--Categories
+----------------------------------------
+SET IDENTITY_INSERT [dbo].[Categories] ON
+GO
+
+INSERT INTO Categories(CategoryID,Name)
+VALUES(9999,'DEFAULT CATEGORY')
+
+SET IDENTITY_INSERT [dbo].[Categories] OFF
+GO
+-----------------------------------------
+--Categories
+----------------------------------------
+SET IDENTITY_INSERT [dbo].[Brands] ON
+GO
+
+INSERT INTO Brands(BrandID,BrandName)
+VALUES(9999,'DEFAULT BRAND')
+
+SET IDENTITY_INSERT [dbo].[Brands] OFF
+
+-----------------------------------------
+--Measurement
+----------------------------------------
+INSERT INTO Measurements
+VALUES('Yards','Yards')
+
+INSERT INTO Measurements
+VALUES('Pounds','Pounds')
+
+INSERT INTO Measurements
+VALUES('Units','Units')
+
+USE [StoreManagerDB]
+GO
+SET IDENTITY_INSERT [dbo].[AccessRights] ON 
+
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (1, N'ucSale', 9, 1, 1)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (2, N'ucOrder', 9, 1, 1)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (3, N'ucQuote', 9, 1, 1)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (4, N'ucNewProduct', 9, NULL, 1)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (5, N'ucAdjustStock', 9, NULL, 1)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (6, N'ucAdjustStock', 9, NULL, 1)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (7, N'ucProductList', 9, 1, 1)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (8, N'ucProductPricing', 9, NULL, 1)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (9, N'ucTransferStocks', 9, NULL, 1)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (10, N'ucCurrentStock', 9, 1, NULL)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (11, N'frmAddCompany', 9, 1, 1)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (12, N'frmReportParameters', 9, 1, NULL)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (13, N'ucSale', 10, 1, 0)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (14, N'ucOrder', 10, 0, 1)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (15, N'ucQuote', 10, 0, 0)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (16, N'ucNewProduct', 10, NULL, 1)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (17, N'ucAdjustStock', 10, NULL, 0)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (18, N'ucAdjustStock', 10, NULL, 0)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (19, N'ucProductList', 10, 0, 0)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (20, N'ucProductPricing', 10, NULL, 0)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (21, N'ucTransferStocks', 10, NULL, 0)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (22, N'ucCurrentStock', 10, 1, NULL)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (23, N'frmAddCompany', 10, 1, 0)
+GO
+INSERT [dbo].[AccessRights] ([Id], [FormID], [UserID], [CanView], [CanEdit]) VALUES (24, N'frmReportParameters', 10, 1, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[AccessRights] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Users] ON 
+
+GO
+INSERT [dbo].[Users] ([UserID], [UserName], [UserPassword], [EmployeeID], [DateCreated], [LastLogInDate], [RoleID], [Active], [IsAdmin]) VALUES (9, N'Admin', N'admin', 100999, CAST(0x0000A22600D4BA1D AS DateTime), NULL, NULL, 1, 1)
+GO
+
+SET IDENTITY_INSERT [dbo].[Users] OFF
+GO

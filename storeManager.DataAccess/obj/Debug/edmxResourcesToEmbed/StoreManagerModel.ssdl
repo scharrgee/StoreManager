@@ -1,0 +1,592 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StoreManagerDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="StoreManagerDBModelStoreContainer">
+    <EntitySet Name="AccessRights" EntityType="StoreManagerDBModel.Store.AccessRights" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Addresses" EntityType="StoreManagerDBModel.Store.Addresses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AddressTypes" EntityType="StoreManagerDBModel.Store.AddressTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BackupDetails" EntityType="StoreManagerDBModel.Store.BackupDetails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Brands" EntityType="StoreManagerDBModel.Store.Brands" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CardInformations" EntityType="StoreManagerDBModel.Store.CardInformations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Categories" EntityType="StoreManagerDBModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Companies" EntityType="StoreManagerDBModel.Store.Companies" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CompanyDetails" EntityType="StoreManagerDBModel.Store.CompanyDetails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Countries" EntityType="StoreManagerDBModel.Store.Countries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustomerPaymentHistory" EntityType="StoreManagerDBModel.Store.CustomerPaymentHistory" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Customers" EntityType="StoreManagerDBModel.Store.Customers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Employees" EntityType="StoreManagerDBModel.Store.Employees" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ErrorLogs" EntityType="StoreManagerDBModel.Store.ErrorLogs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvoiceNumbers" EntityType="StoreManagerDBModel.Store.InvoiceNumbers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LabelSettings" EntityType="StoreManagerDBModel.Store.LabelSettings" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Locations" EntityType="StoreManagerDBModel.Store.Locations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Measurements" EntityType="StoreManagerDBModel.Store.Measurements" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PaymentModes" EntityType="StoreManagerDBModel.Store.PaymentModes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProductAdjustments" EntityType="StoreManagerDBModel.Store.ProductAdjustments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProductLocations" EntityType="StoreManagerDBModel.Store.ProductLocations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Products" EntityType="StoreManagerDBModel.Store.Products" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PurchaseDetails" EntityType="StoreManagerDBModel.Store.PurchaseDetails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Purchases" EntityType="StoreManagerDBModel.Store.Purchases" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Roles" EntityType="StoreManagerDBModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SaleDetails" EntityType="StoreManagerDBModel.Store.SaleDetails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Sales" EntityType="StoreManagerDBModel.Store.Sales" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SaleStatuses" EntityType="StoreManagerDBModel.Store.SaleStatuses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SaleTypes" EntityType="StoreManagerDBModel.Store.SaleTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="StockTranfers" EntityType="StoreManagerDBModel.Store.StockTranfers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Suppliers" EntityType="StoreManagerDBModel.Store.Suppliers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Taxes" EntityType="StoreManagerDBModel.Store.Taxes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="StoreManagerDBModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_MeasurementProduct" Association="StoreManagerDBModel.Store.FK_MeasurementProduct">
+      <End Role="Measurements" EntitySet="Measurements" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductBrand" Association="StoreManagerDBModel.Store.FK_ProductBrand">
+      <End Role="Brands" EntitySet="Brands" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductCategory" Association="StoreManagerDBModel.Store.FK_ProductCategory">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductLocationLocation" Association="StoreManagerDBModel.Store.FK_ProductLocationLocation">
+      <End Role="Locations" EntitySet="Locations" />
+      <End Role="ProductLocations" EntitySet="ProductLocations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductLocationProduct" Association="StoreManagerDBModel.Store.FK_ProductLocationProduct">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductLocations" EntitySet="ProductLocations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductSupplier" Association="StoreManagerDBModel.Store.FK_ProductSupplier">
+      <End Role="Suppliers" EntitySet="Suppliers" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SaleSaleDetail" Association="StoreManagerDBModel.Store.FK_SaleSaleDetail">
+      <End Role="Sales" EntitySet="Sales" />
+      <End Role="SaleDetails" EntitySet="SaleDetails" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AccessRights">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="FormID" Type="varchar" MaxLength="50" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="CanView" Type="bit" />
+    <Property Name="CanEdit" Type="bit" />
+  </EntityType>
+  <EntityType Name="Addresses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="AddressTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="BackupDetails">
+    <Key>
+      <PropertyRef Name="BackupID" />
+    </Key>
+    <Property Name="BackupID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="BackupDate" Type="datetime" />
+    <Property Name="BackupFolder" Type="varchar" MaxLength="100" />
+    <Property Name="StartTime" Type="varchar" MaxLength="10" />
+    <Property Name="EndTime" Type="varchar" MaxLength="10" />
+    <Property Name="Comments" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserID" Type="smallint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Brands">
+    <Key>
+      <PropertyRef Name="BrandID" />
+    </Key>
+    <Property Name="BrandID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="BrandName" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Description" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="CardInformations">
+    <Key>
+      <PropertyRef Name="CardID" />
+    </Key>
+    <Property Name="CardID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CardType" Type="nvarchar" Nullable="false" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="Categories">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Comment" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Companies">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Name="CompanyNum" Type="nvarchar" MaxLength="20" />
+    <Property Name="CompanyName" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="Address1" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Address2" Type="nvarchar" MaxLength="100" />
+    <Property Name="Address3" Type="nvarchar" MaxLength="100" />
+    <Property Name="PhoneLine1" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="PhoneLine2" Type="nvarchar" MaxLength="20" />
+    <Property Name="PhoneLine3" Type="nvarchar" MaxLength="20" />
+    <Property Name="Motto" Type="nvarchar" MaxLength="150" />
+    <Property Name="Logo" Type="varbinary(max)" />
+    <Property Name="Location" Type="nvarchar" MaxLength="50" />
+    <Property Name="FaxNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="CompanyID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Misc" Type="nvarchar" MaxLength="100" />
+    <Property Name="DefaultLocation" Type="int" />
+    <Property Name="WebSite" Type="nvarchar" MaxLength="50" />
+    <Property Name="City" Type="nvarchar" MaxLength="50" />
+    <Property Name="Country" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="CompanyDetails">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Name="CompanyID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyName" Type="varchar" MaxLength="50" />
+    <Property Name="Motto" Type="varchar" MaxLength="100" />
+    <Property Name="CompanyAddress" Type="varchar" MaxLength="100" />
+    <Property Name="LandLine" Type="varchar" MaxLength="20" />
+    <Property Name="Mobile" Type="varchar" MaxLength="20" />
+    <Property Name="Logo" Type="varbinary(max)" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="Website" Type="varchar" MaxLength="20" />
+    <Property Name="Fax" Type="varchar" MaxLength="20" />
+    <Property Name="MiscInfo" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Countries">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustomerPaymentHistory">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="SaleID" Type="int" />
+    <Property Name="PayAmount" Type="numeric" Nullable="false" Scale="2" />
+    <Property Name="Balance" Type="numeric" Nullable="false" Scale="2" />
+    <Property Name="PaymentDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+    </Key>
+    <Property Name="CustomerNum" Type="nvarchar" MaxLength="20" />
+    <Property Name="Surname" Type="nvarchar" MaxLength="50" />
+    <Property Name="OtherNames" Type="nvarchar" MaxLength="50" />
+    <Property Name="Sex" Type="char" MaxLength="10" />
+    <Property Name="CustomerTypeID" Type="int" />
+    <Property Name="PhoneNumber1" Type="nvarchar" MaxLength="20" />
+    <Property Name="PhoneNumber2" Type="nvarchar" MaxLength="20" />
+    <Property Name="PhoneNumber3" Type="nvarchar" MaxLength="20" />
+    <Property Name="EmailAddress" Type="nvarchar" MaxLength="50" />
+    <Property Name="Website" Type="nvarchar" MaxLength="50" />
+    <Property Name="Discount" Type="decimal" Scale="2" />
+    <Property Name="CreditLimit" Type="decimal" Scale="2" />
+    <Property Name="DateAdded" Type="datetime" Nullable="false" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="CustomerName" Type="varchar" MaxLength="30" />
+    <Property Name="ContactPerson" Type="nvarchar" MaxLength="100" />
+    <Property Name="PostalAddress" Type="nvarchar" MaxLength="100" />
+    <Property Name="LocationAdress" Type="nvarchar" MaxLength="100" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="200" />
+    <Property Name="CustomerSince" Type="datetime" />
+    <Property Name="Salutation" Type="nchar" MaxLength="10" />
+    <Property Name="Country" Type="nvarchar" MaxLength="50" />
+    <Property Name="City" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="EmployeeID" />
+    </Key>
+    <Property Name="EmployeeNum" Type="nvarchar" MaxLength="20" />
+    <Property Name="FisrtName" Type="nvarchar" MaxLength="50" />
+    <Property Name="OtherNames" Type="nvarchar" MaxLength="100" />
+    <Property Name="Sex" Type="nchar" MaxLength="10" />
+    <Property Name="PhoneNumber1" Type="nvarchar" MaxLength="50" />
+    <Property Name="PhoneNumber2" Type="nvarchar" MaxLength="50" />
+    <Property Name="PhoneNumber3" Type="nvarchar" MaxLength="50" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="JobTitle" Type="nvarchar" MaxLength="50" />
+    <Property Name="StoreID" Type="nvarchar" MaxLength="20" />
+    <Property Name="CardID" Type="int" />
+    <Property Name="EmployeeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Address" Type="nvarchar" MaxLength="100" />
+    <Property Name="EmployeeSince" Type="datetime" />
+    <Property Name="ContactPerson" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ErrorLogs">
+    <Key>
+      <PropertyRef Name="ErrorLogID" />
+    </Key>
+    <Property Name="ErrorLogID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CustomMessage" Type="nvarchar(max)" />
+    <Property Name="ExceptionStackTrace" Type="nvarchar(max)" />
+    <Property Name="ExceptionMessage" Type="nvarchar(max)" />
+    <Property Name="InnerExeptionMessage" Type="nvarchar(max)" />
+    <Property Name="InnerExceptionStackTrace" Type="nvarchar(max)" />
+    <Property Name="ExceptionDate" Type="datetime" />
+    <Property Name="ControlName" Type="nvarchar" MaxLength="100" />
+    <Property Name="FormName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="InvoiceNumbers">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="InvoiceNum" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LabelSettings">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ListStart" Type="int" />
+    <Property Name="ListEnd" Type="int" />
+    <Property Name="LabelLenghth" Type="int" />
+    <Property Name="QtyToPrint" Type="int" />
+    <Property Name="BarcodeType" Type="varchar" MaxLength="20" />
+    <Property Name="BorderType" Type="varchar" MaxLength="20" />
+    <Property Name="FontFamily" Type="varchar" MaxLength="20" />
+    <Property Name="ForeColor" Type="varchar" MaxLength="20" />
+    <Property Name="BarHeight" Type="int" />
+    <Property Name="FontSize" Type="int" />
+    <Property Name="ShowTest" Type="bit" />
+    <Property Name="ShowBorder" Type="bit" />
+    <Property Name="ShowCheckSum" Type="bit" />
+  </EntityType>
+  <EntityType Name="Locations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsDefault" Type="bit" />
+    <Property Name="Comment" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Measurements">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="PaymentModes">
+    <Key>
+      <PropertyRef Name="PaymentModeID" />
+    </Key>
+    <Property Name="PaymentModeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PayMode" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="ProductAdjustments">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="int" Nullable="false" />
+    <Property Name="LocationID" Type="int" Nullable="false" />
+    <Property Name="ProductLocationID" Type="int" Nullable="false" />
+    <Property Name="CurrentQty" Type="int" Nullable="false" />
+    <Property Name="NewQty" Type="int" Nullable="false" />
+    <Property Name="Difference" Type="int" Nullable="false" />
+    <Property Name="AdjustmentDate" Type="datetime" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
+    <Property Name="EmployeeID" Type="int" />
+  </EntityType>
+  <EntityType Name="ProductLocations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="LocationID" Type="int" Nullable="false" />
+    <Property Name="ProductID" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="Barcode" Type="nvarchar" MaxLength="50" />
+    <Property Name="ProductName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" MaxLength="50" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="UnitPrice" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="CategoryID" Type="int" Nullable="false" />
+    <Property Name="ManufactureDate" Type="datetime" />
+    <Property Name="ExpiryDate" Type="datetime" />
+    <Property Name="ReorderLevel" Type="int" />
+    <Property Name="PurchasePrice" Type="decimal" Scale="2" />
+    <Property Name="SellingPrice" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="ProductImage" Type="varbinary(max)" />
+    <Property Name="OnSale" Type="bit" />
+    <Property Name="SupplierID" Type="int" Nullable="false" />
+    <Property Name="ProductNum" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Commission" Type="decimal" Precision="10" Scale="8" />
+    <Property Name="Discount" Type="decimal" Precision="10" Scale="8" />
+    <Property Name="DateAdded" Type="datetime" />
+    <Property Name="LastDateAdjusted" Type="datetime" />
+    <Property Name="EmployeeID" Type="nvarchar" MaxLength="20" />
+    <Property Name="BrandID" Type="int" Nullable="false" />
+    <Property Name="AdjustmentReason" Type="nvarchar" MaxLength="150" />
+    <Property Name="ProductID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="LocationID" Type="int" Nullable="false" />
+    <Property Name="MeasurementID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PurchaseDetails">
+    <Key>
+      <PropertyRef Name="PurchaseDetailID" />
+    </Key>
+    <Property Name="InvoiceNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="ProductID" Type="nvarchar" MaxLength="20" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="UnitPrice" Type="decimal" Scale="2" />
+    <Property Name="PurchaseDetailID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Discount" Type="decimal" Scale="2" />
+    <Property Name="Tax" Type="decimal" Scale="2" />
+  </EntityType>
+  <EntityType Name="Purchases">
+    <Key>
+      <PropertyRef Name="InvoiceNumber" />
+    </Key>
+    <Property Name="InvoiceNumber" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="SupplierID" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="PurchaseAmount" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="PurchaseDate" Type="datetime" Nullable="false" />
+    <Property Name="AmountPaid" Type="decimal" />
+    <Property Name="Balance" Type="decimal" />
+    <Property Name="StoreID" Type="int" />
+    <Property Name="PurchaseType" Type="nchar" MaxLength="10" />
+    <Property Name="EmployeeID" Type="nvarchar" MaxLength="20" />
+    <Property Name="PurchasetypeID" Type="int" />
+    <Property Name="DetailedAccountID" Type="varchar" MaxLength="20" />
+    <Property Name="BillState" Type="varchar" MaxLength="10" />
+    <Property Name="Discount" Type="decimal" Scale="2" />
+    <Property Name="Tax" Type="decimal" Scale="2" />
+    <Property Name="PromisedDate" Type="datetime" />
+    <Property Name="DateClosed" Type="datetime" />
+    <Property Name="PurchaseOrderNo" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="SaleDetails">
+    <Key>
+      <PropertyRef Name="SalesDetailsID" />
+    </Key>
+    <Property Name="InvoiceNumber" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="UnitPrice" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="SalesDetailsID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="nvarchar" MaxLength="20" />
+    <Property Name="Discount" Type="decimal" Scale="2" />
+    <Property Name="Tax" Type="decimal" Scale="2" />
+    <Property Name="SaleID" Type="int" Nullable="false" />
+    <Property Name="LineTotal" Type="decimal" Precision="8" Scale="2" />
+    <Property Name="LocationID" Type="int" />
+  </EntityType>
+  <EntityType Name="Sales">
+    <Key>
+      <PropertyRef Name="SaleID" />
+    </Key>
+    <Property Name="InvoiceNumber" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Amount" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="InvoiceDate" Type="datetime" Nullable="false" />
+    <Property Name="AmountPaid" Type="decimal" Scale="2" />
+    <Property Name="Balance" Type="decimal" Scale="2" />
+    <Property Name="EmployeeID" Type="nvarchar" MaxLength="20" />
+    <Property Name="StoreID" Type="int" />
+    <Property Name="CustomerID" Type="nvarchar" MaxLength="20" />
+    <Property Name="SaleTypeID" Type="int" />
+    <Property Name="InvoiceState" Type="varchar" MaxLength="10" />
+    <Property Name="Discount" Type="decimal" Scale="2" />
+    <Property Name="Tax" Type="decimal" Scale="2" />
+    <Property Name="PromisedDate" Type="datetime" />
+    <Property Name="DateClosed" Type="datetime" />
+    <Property Name="CustomerPO" Type="varchar" MaxLength="40" />
+    <Property Name="PaymentModeID" Type="int" />
+    <Property Name="VoidSale" Type="bit" />
+    <Property Name="VoucherCode" Type="varchar" MaxLength="20" />
+    <Property Name="SaleStatusID" Type="int" />
+    <Property Name="SaleID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="SubTotal" Type="decimal" Precision="8" Scale="2" />
+    <Property Name="LocationID" Type="int" />
+    <Property Name="CustBalance" Type="numeric" Scale="2" />
+  </EntityType>
+  <EntityType Name="SaleStatuses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SaleTypes">
+    <Key>
+      <PropertyRef Name="SaleTypeID" />
+    </Key>
+    <Property Name="SaleTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="nvarchar" Nullable="false" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="StockTranfers">
+    <Key>
+      <PropertyRef Name="StockTranferID" />
+    </Key>
+    <Property Name="StockTranferID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="FromLocationID" Type="int" />
+    <Property Name="FromLocationQtyBeforeTranfer" Type="int" />
+    <Property Name="FromLocationQtyAfterTransfer" Type="int" />
+    <Property Name="ToLocationID" Type="int" />
+    <Property Name="ToLocationBeforeTransfer" Type="int" />
+    <Property Name="ToLocationAfterTranfer" Type="int" />
+    <Property Name="ProductID" Type="int" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="TransferDate" Type="datetime" />
+    <Property Name="TransferQty" Type="int" />
+  </EntityType>
+  <EntityType Name="Suppliers">
+    <Key>
+      <PropertyRef Name="SupplierID" />
+    </Key>
+    <Property Name="SupplierNum" Type="nvarchar" MaxLength="20" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="ContactPerson" Type="nvarchar" MaxLength="50" />
+    <Property Name="PostalAddress" Type="nvarchar" MaxLength="100" />
+    <Property Name="LocationAdress" Type="nvarchar" MaxLength="100" />
+    <Property Name="PhoneNumber1" Type="nvarchar" MaxLength="50" />
+    <Property Name="PhoneNumber2" Type="nvarchar" MaxLength="50" />
+    <Property Name="PhoneNumber3" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Website" Type="nvarchar" MaxLength="50" />
+    <Property Name="Remarks" Type="varchar" MaxLength="200" />
+    <Property Name="SupplierSince" Type="datetime" />
+    <Property Name="Salutation" Type="nchar" MaxLength="10" />
+    <Property Name="Country" Type="nvarchar" MaxLength="50" />
+    <Property Name="City" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="SupplierID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="Taxes">
+    <Key>
+      <PropertyRef Name="TaxID" />
+    </Key>
+    <Property Name="TaxID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TaxName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="TaxRate" Type="decimal" Nullable="false" Precision="10" Scale="5" />
+    <Property Name="TaxNumber" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="varchar" MaxLength="20" />
+    <Property Name="UserPassword" Type="varchar" MaxLength="20" />
+    <Property Name="EmployeeID" Type="int" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="LastLogInDate" Type="datetime" />
+    <Property Name="RoleID" Type="int" />
+    <Property Name="Active" Type="bit" />
+    <Property Name="IsAdmin" Type="bit" />
+  </EntityType>
+  <Association Name="FK_MeasurementProduct">
+    <End Role="Measurements" Type="StoreManagerDBModel.Store.Measurements" Multiplicity="1" />
+    <End Role="Products" Type="StoreManagerDBModel.Store.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Measurements">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="MeasurementID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductBrand">
+    <End Role="Brands" Type="StoreManagerDBModel.Store.Brands" Multiplicity="1" />
+    <End Role="Products" Type="StoreManagerDBModel.Store.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brands">
+        <PropertyRef Name="BrandID" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="BrandID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductCategory">
+    <End Role="Categories" Type="StoreManagerDBModel.Store.Categories" Multiplicity="1" />
+    <End Role="Products" Type="StoreManagerDBModel.Store.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductLocationLocation">
+    <End Role="Locations" Type="StoreManagerDBModel.Store.Locations" Multiplicity="1" />
+    <End Role="ProductLocations" Type="StoreManagerDBModel.Store.ProductLocations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Locations">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductLocations">
+        <PropertyRef Name="LocationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductLocationProduct">
+    <End Role="Products" Type="StoreManagerDBModel.Store.Products" Multiplicity="1" />
+    <End Role="ProductLocations" Type="StoreManagerDBModel.Store.ProductLocations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="ProductLocations">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductSupplier">
+    <End Role="Suppliers" Type="StoreManagerDBModel.Store.Suppliers" Multiplicity="1" />
+    <End Role="Products" Type="StoreManagerDBModel.Store.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Suppliers">
+        <PropertyRef Name="SupplierID" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="SupplierID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SaleSaleDetail">
+    <End Role="Sales" Type="StoreManagerDBModel.Store.Sales" Multiplicity="1" />
+    <End Role="SaleDetails" Type="StoreManagerDBModel.Store.SaleDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sales">
+        <PropertyRef Name="SaleID" />
+      </Principal>
+      <Dependent Role="SaleDetails">
+        <PropertyRef Name="SaleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

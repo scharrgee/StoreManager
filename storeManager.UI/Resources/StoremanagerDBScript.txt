@@ -1,0 +1,2020 @@
+USE [master]
+GO
+/****** Object:  Database [StoreManagerDB]    Script Date: 4/8/2014 10:23:33 AM ******/
+CREATE DATABASE StoreManagerDB
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [StoreManagerDB].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [StoreManagerDB] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET AUTO_CREATE_STATISTICS ON 
+GO
+ALTER DATABASE [StoreManagerDB] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [StoreManagerDB] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [StoreManagerDB] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [StoreManagerDB] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [StoreManagerDB] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [StoreManagerDB] SET RECOVERY FULL 
+GO
+ALTER DATABASE [StoreManagerDB] SET  MULTI_USER 
+GO
+ALTER DATABASE [StoreManagerDB] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [StoreManagerDB] SET DB_CHAINING OFF 
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'StoreManagerDB', N'ON'
+GO
+USE [StoreManagerDB]
+GO
+/****** Object:  StoredProcedure [dbo].[prc_CountSheet]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_CountSheet]
+(
+ @CategoryID int = 0,
+ @BrandID int = 0,
+ @LocationID int  = 0
+)
+
+AS
+
+DECLARE @StartSCategoryID int,
+		@EndCategoryID int, 
+		@StartBrandID int,
+		@EndBrandID int, 
+		@StartLocationID int,
+		@EndLocationID int 
+		
+		IF(@CategoryID = 0)
+SELECT  @StartSCategoryID  = MIN (C.CategoryID),
+		@EndCategoryID	   = MAX (C.CategoryID)
+FROM Categories C
+ELSE
+SELECT  @StartSCategoryID  = @CategoryID,
+		@EndCategoryID	   = @CategoryID 
+		
+IF(@BrandID = 0)
+SELECT  @StartBrandID  = MIN (B.BrandID),
+		@EndBrandID	   = MAX (B.BrandID)
+FROM Brands B
+ELSE
+SELECT  @StartBrandID  = @BrandID,
+		@EndBrandID	   = @BrandID 
+		
+IF(@LocationID = 0)
+SELECT  @StartLocationID   = MIN (L.Id),
+		@EndLocationID	   = MAX (L.Id)
+FROM Locations L
+ELSE
+SELECT  @StartLocationID  = @LocationID,
+		@EndLocationID    = @LocationID
+		
+SELECT	P.ProductName,
+		CAST(PL.Quantity AS INT) OnHand,
+		L.Name Location,
+		Difference = '',
+		Counted = '',
+		ParaCategory  = CASE WHEN @CategoryID = 0 THEN ''
+						ELSE C.Name END,
+		ParaBrand     = CASE WHEN @BrandID = 0 THEN ''
+						ELSE B.BrandName END
+FROM Products P
+
+JOIN ProductLocations PL
+ON P.ProductID = PL.ProductID
+
+JOIN Locations L
+ON PL.LocationID = L.Id
+
+JOIN Categories C
+on P.CategoryID = C.CategoryID
+
+JOIN Brands B
+ON P.BrandID = B.BrandID
+
+WHERE P.CategoryID BETWEEN @StartSCategoryID AND @EndCategoryID
+AND P.BrandID BETWEEN @StartBrandID AND @EndBrandID 
+AND L.Id BETWEEN @StartLocationID AND @EndLocationID
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_ExpiryList_Report]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_ExpiryList_Report]
+(
+ @StartDate varchar(20) = '',
+ @EndDate varchar(20) = '',
+ @CategoryID int = 0,
+ @BrandID int = 0,
+ @LocationID int  = 0
+)
+
+AS
+
+DECLARE @dtStartDate varchar(20),
+		@dtEndDate varchar(20),
+		@StartSCategoryID int,
+		@EndCategoryID int, 
+		@StartBrandID int,
+		@EndBrandID int, 
+		@StartLocationID int,
+		@EndLocationID int 
+		
+IF(@StartDate = '')
+SELECT  @dtStartDate  = MIN (Convert(varchar(12),P.ExpiryDate,106)),
+		@dtEndDate	= MAX (Convert(varchar(12),P.ExpiryDate,106))
+FROM Products P
+ELSE
+SELECT  @dtStartDate  = @StartDate,
+		@dtEndDate	=  @EndDate
+		
+IF(@CategoryID = 0)
+SELECT  @StartSCategoryID  = MIN (C.CategoryID),
+		@EndCategoryID	   = MAX (C.CategoryID)
+FROM Categories C
+ELSE
+SELECT  @StartSCategoryID  = @CategoryID,
+		@EndCategoryID	   = @CategoryID 
+		
+IF(@BrandID = 0)
+SELECT  @StartBrandID  = MIN (B.BrandID),
+		@EndBrandID	   = MAX (B.BrandID)
+FROM Brands B
+ELSE
+SELECT  @StartBrandID  = @BrandID,
+		@EndBrandID	   = @BrandID 
+		
+IF(@LocationID = 0)
+SELECT  @StartLocationID   = MIN (L.Id),
+		@EndLocationID	   = MAX (L.Id)
+FROM Locations L
+ELSE
+SELECT  @StartLocationID  = @LocationID,
+		@EndLocationID    = @LocationID
+
+SELECT  P.Barcode,
+		P.ProductName,
+		P.Description,
+		L.Quantity,
+		P.UnitPrice,
+		B.BrandName,
+		C.Name Category,
+		Convert(varchar(12),P.ManufactureDate,106) ManufactureDate,
+		Convert(varchar(12),P.ExpiryDate,106) ExpiryDate,
+		P.ReorderLevel,
+		P.PurchasePrice,
+		P.SellingPrice,
+		P.OnSale,
+		P.ProductID,
+		P.Commission,
+		P.Discount,
+		P.DateAdded,
+		T.Name Location,
+		ParaStartDate = Convert(varchar(12),@StartDate,106),
+		ParaEndDate   = Convert(varchar(12),@EndDate,106),
+		ParaCategory  = CASE WHEN @CategoryID = 0 THEN ''
+						ELSE C.Name END,
+		ParaBrand     = CASE WHEN @BrandID = 0 THEN ''
+						ELSE B.BrandName END
+		
+FROM Products P
+
+
+JOIN Categories C
+on P.CategoryID = C.CategoryID
+
+JOIN Brands B
+ON P.BrandID = B.BrandID
+
+JOIN ProductLocations L
+ON P.ProductID = L.ProductID
+
+JOIN Locations T
+ON L.LocationID = T.Id
+
+WHERE  Convert(varchar(12),P.ExpiryDate,106) BETWEEN @dtStartDate AND @dtEndDate
+AND P.CategoryID BETWEEN @StartSCategoryID AND @EndCategoryID
+AND P.BrandID BETWEEN @StartBrandID AND @EndBrandID 
+AND L.LocationID BETWEEN @StartLocationID AND @EndLocationID
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_GetProductList]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_GetProductList]
+(
+	@ProductName varchar(30) = '',
+	@ProductCode varchar(20) = '',
+	@CategoryID int = 0,
+	@LocationID int = 0
+)
+AS
+
+DECLARE @CategoryName varchar(20),
+		@LocatioName varchar(20)
+
+SET @CategoryName = (SELECT C.Name
+					FROM Categories C WHERE C.CategoryID = @CategoryID)
+
+SET @LocatioName = (SELECT L.Name 
+					FROM Locations L WHERE L.Id = @LocationID)
+
+SELECT P.ProductID,P.ProductName,C.CategoryID,C.Name CategoryName,PL.*
+FROM Products P
+
+JOIN Categories C
+ON P.CategoryID = C.CategoryID
+
+JOIN ProductLocations PL
+ON P.ProductID = PL.ProductID
+
+JOIN Locations L
+ON PL.LocationID = L.Id
+
+WHERE P.ProductName LIKE @ProductName + '%'
+	  AND P.ProductNum LIKE @ProductCode + '%'
+	  AND C.Name LIKE ISNULL(@CategoryName,'') + '%'
+	  AND L.Name LIKE ISNULL(@LocatioName,'') + '%'
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_GetProducts]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_GetProducts]
+(
+	@ProductName varchar(30),
+	@ProductCode varchar(20),
+	@CategoryID int
+)
+AS
+
+DECLARE @CategoryName varchar(20)
+
+SET @CategoryName = (SELECT C.Name
+					FROM Categories C WHERE C.CategoryID = @CategoryID)
+
+SELECT P.ProductID,P.ProductName,P.UnitPrice,S.SupplierID,S.Name SupplierName,C.CategoryID,C.Name CategoryName
+FROM Products P
+
+JOIN Suppliers S
+ON P.SupplierID = S.SupplierID
+
+JOIN Categories C
+ON P.CategoryID = C.CategoryID
+
+WHERE P.ProductName LIKE @ProductName + '%'
+	  AND P.ProductNum LIKE @ProductCode + '%'
+	  AND C.Name LIKE @CategoryName + '%'
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_GetProductsAtLocation]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_GetProductsAtLocation]
+(
+	@LocationID int = 0,
+	@ProductID int = 0,
+	@ProductName varchar(50) = ''
+)
+
+AS  
+DECLARE @StartProductID int,
+		@EndProductID int
+
+--SET @ProductName = (SELECT P.ProductName
+--					FROM Products P WHERE P.ProductID = @ProductID)
+
+IF(@ProductID = 0)
+SELECT  @StartProductID    = MIN (S.ProductID),
+		@EndProductID	  = MAX (S.ProductID)
+FROM Products S
+ELSE
+SELECT  @StartProductID    = @ProductID,
+		@EndProductID	   = @ProductID 
+
+SELECT P.ProductName,PL.Quantity,P.ProductID,L.Id LocationID
+FROM Products P
+JOIN ProductLocations PL
+ON P.ProductID = PL.ProductID
+
+JOIN Locations L
+ON PL.LocationID = L.Id
+
+WHERE L.Id = @LocationID
+AND PL.ProductID BETWEEN @StartProductID AND @EndProductID
+AND P.ProductName LIKE @ProductName + '%'
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_GetSales]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_GetSales]
+(
+	@StartDate varchar(20) = '',
+	@EndDate varchar(20) = '',
+	@InvoiceNo varchar(20) = '',
+	@StatusID int = 0
+)
+
+AS
+
+DECLARE @dtStartDate varchar(20),
+		@dtEndDate varchar(20),
+		@StartStatusID int,
+		@EndStatusID int 
+		
+IF(@StartDate = '')
+SELECT  @dtStartDate  = MIN (Convert(date,S.InvoiceDate)),
+		@dtEndDate	  = MAX (Convert(date,S.InvoiceDate))
+FROM Sales S
+ELSE
+SELECT  @dtStartDate  = @StartDate,
+		@dtEndDate	  = @EndDate 
+		
+IF(@StatusID = 0)
+SELECT  @StartStatusID    = MIN (S.id),
+		@EndStatusID	  = MAX (S.id)
+FROM SaleStatuses S
+ELSE
+SELECT  @StartStatusID    = @StatusID,
+		@EndStatusID	  = @StatusID 
+
+SELECT	S.InvoiceNumber,
+		InvoiceDate = Convert(varchar(12),S.InvoiceDate,106),
+		T.Id SaleStatusID,
+		T.Status SaleStatus,
+		CustomerName = ISNULL(C.CustomerName,'N/A'),
+		CustomerID = ISNULL(C.CustomerID,0),
+		S.Amount,
+		S.AmountPaid,
+		S.Balance,
+		S.SaleID
+		
+FROM Sales S 
+
+LEFT JOIN SaleStatuses T
+ON S.SaleStatusID = T.Id
+
+LEFT JOIN Customers C
+ON S.CustomerID = C.CustomerID
+
+WHERE Convert(date,S.InvoiceDate) BETWEEN @dtStartDate AND @dtEndDate
+AND S.SaleStatusID BETWEEN @StartStatusID AND @EndStatusID
+AND S.InvoiceNumber LIKE @InvoiceNo + '%'
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_Invoice_Report]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_Invoice_Report] 
+(
+	@SalesStartDate varchar(20) = '',
+	@SaleEndDate varchar(20)  = '',
+	@StatusID INT = 0,
+	@StoreID INT = 0
+)
+AS
+
+DECLARE @StartDate varchar(20),
+		@EndDate varchar(20),
+	    @StartStatusID int,
+		@EndStatusID int,
+		@StatusDesc varchar(30)
+		
+IF(@SalesStartDate = '')
+SELECT  @StartDate  = MIN (Convert(date,S.InvoiceDate)),
+		@EndDate	= MAX (Convert(date,S.InvoiceDate))
+FROM Sales S
+ELSE
+SELECT  @StartDate  = @SalesStartDate,
+		@EndDate	= @SaleEndDate
+
+IF(@StatusID = 0)
+SELECT  @StartStatusID    = MIN (S.id),
+		@EndStatusID	  = MAX (S.id)
+FROM SaleStatuses S
+ELSE
+SELECT  @StartStatusID    = @StatusID,
+		@EndStatusID	  = @StatusID 
+
+IF(@StatusID = 0)
+SELECT @StatusDesc = ''
+ELSE
+SELECT @StatusDesc = Status
+FROM SaleStatuses S
+WHERE S.Id = @StatusID
+
+SELECT	S.InvoiceNumber,
+		S.Amount,
+		SubTotal = isnull(s.SubTotal,S.Amount),
+		S.AmountPaid,
+		S.Balance,
+		S.Discount,
+		InvoiceDate = Convert(varchar(12),S.InvoiceDate,106),
+		InvoiceState = t.Status,
+		S.Tax,
+		C.CustomerName Name,
+		ParaStartDate = Convert(varchar(12),@SalesStartDate,106),
+		ParaEndDate   =  Convert(varchar(12),@SaleEndDate,106),
+		ParaSaleType  = @StatusDesc
+		
+FROM Sales S
+
+JOIN Customers C
+ON S.CustomerID=C.CustomerID
+
+JOIN SaleStatuses t
+ON S.SaleStatusID = t.Id
+
+WHERE Convert(date,S.InvoiceDate) BETWEEN @StartDate AND @EndDate
+AND S.SaleStatusID BETWEEN @StartStatusID AND @EndStatusID
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_InvoiceDetails_Report]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_InvoiceDetails_Report]
+(
+	@SalesStartDate VARCHAR(20) = '',
+	@SaleEndDate VARCHAR(20) = '',
+	@StatusID INT = 0,
+	@StoreID INT = 0
+)
+
+AS
+
+DECLARE @StartDate varchar(20),
+		@EndDate varchar(20),
+	    @StartStatusID int,
+		@EndStatusID int,
+		@StatusDesc varchar(30)
+		
+IF(@SalesStartDate = '')
+SELECT  @StartDate  = MIN (Convert(date,S.InvoiceDate)),
+		@EndDate	= MAX (Convert(date,S.InvoiceDate))
+FROM Sales S
+ELSE
+SELECT  @StartDate  = @SalesStartDate,
+		@EndDate	= @SaleEndDate 
+		
+IF(@StatusID = 0)
+SELECT  @StartStatusID    = MIN (S.id),
+		@EndStatusID	  = MAX (S.id)
+FROM SaleStatuses S
+ELSE
+SELECT  @StartStatusID    = @StatusID,
+		@EndStatusID	  = @StatusID 
+
+IF(@StatusID = 0)
+SELECT @StatusDesc = ''
+ELSE
+SELECT @StatusDesc = Status
+FROM SaleStatuses S
+WHERE S.Id = @StatusID
+		
+SELECT	S.InvoiceNumber,
+		S.Amount,
+		S.AmountPaid,
+		S.Balance,
+		S.Discount,
+		Convert(varchar(12),S.InvoiceDate,106) InvoiceDate,
+		InvoiceState = t.Status,
+		S.Tax,
+		C.CustomerName Name,
+		D.UnitPrice,
+		D.Quantity,
+		P.ProductName,
+		G.Name Category,
+		Total = D.Quantity * D.UnitPrice,
+		M.Description Measurement,
+		ParaStartDate = Convert(varchar(12),@SalesStartDate,106),
+		ParaEndDate   =  Convert(varchar(12),@SaleEndDate,106),
+	    ParaSaleType  = @StatusDesc
+FROM Sales S
+
+JOIN SaleDetails D
+ON S.SaleID = D.SaleID
+
+JOIN Customers C
+ON S.CustomerID = C.CustomerID
+
+JOIN Products P
+ON D.ProductID = P.ProductID
+
+JOIN Categories G
+ON P.CategoryID = G.CategoryID
+
+JOIN SaleStatuses t
+ON S.SaleStatusID = T.Id
+
+JOIN Measurements M
+ON P.MeasurementID = M.Id
+
+WHERE Convert(date,S.InvoiceDate) BETWEEN @StartDate AND @EndDate
+AND S.SaleStatusID BETWEEN @StartStatusID AND @EndStatusID
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_OutOfStock_Report]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_OutOfStock_Report]
+(
+ @CategoryID int = 0,
+ @BrandID int = 0,
+ @LocationID int  = 0
+)
+
+AS
+
+DECLARE @StartSCategoryID int,
+		@EndCategoryID int, 
+		@StartBrandID int,
+		@EndBrandID int, 
+		@StartLocationID int,
+		@EndLocationID int 
+		
+		IF(@CategoryID = 0)
+SELECT  @StartSCategoryID  = MIN (C.CategoryID),
+		@EndCategoryID	   = MAX (C.CategoryID)
+FROM Categories C
+ELSE
+SELECT  @StartSCategoryID  = @CategoryID,
+		@EndCategoryID	   = @CategoryID 
+		
+IF(@BrandID = 0)
+SELECT  @StartBrandID  = MIN (B.BrandID),
+		@EndBrandID	   = MAX (B.BrandID)
+FROM Brands B
+ELSE
+SELECT  @StartBrandID  = @BrandID,
+		@EndBrandID	   = @BrandID 
+		
+IF(@LocationID = 0)
+SELECT  @StartLocationID   = MIN (L.Id),
+		@EndLocationID	   = MAX (L.Id)
+FROM Locations L
+ELSE
+SELECT  @StartLocationID  = @LocationID,
+		@EndLocationID    = @LocationID
+
+SELECT  P.Barcode,
+		P.ProductName,
+		P.Description,
+		L.Quantity,
+		P.UnitPrice,
+		B.BrandName,
+		C.Name Category,
+		Convert(varchar(12),P.ManufactureDate,106) ManufactureDate,
+		Convert(varchar(12),P.ExpiryDate,106) ExpiryDate,
+		P.ReorderLevel,
+		P.PurchasePrice,
+		P.SellingPrice,
+		P.OnSale,
+		T.Name Location,
+		P.ProductID,
+		P.Commission,
+		P.Discount,
+		P.DateAdded,
+		M.Description Measurement,
+		ParaCategory  = CASE WHEN @CategoryID = 0 THEN ''
+						ELSE C.Name END,
+		ParaBrand     = CASE WHEN @BrandID = 0 THEN ''
+						ELSE B.BrandName END
+		
+FROM Products P
+
+
+JOIN Categories C
+on P.CategoryID = C.CategoryID
+
+JOIN Brands B
+ON P.BrandID = B.BrandID
+
+JOIN ProductLocations L
+ON P.ProductID = L.ProductID
+
+JOIN Locations T
+ON L.LocationID = T.Id
+
+JOIN Measurements M
+ON P.MeasurementID = M.Id
+
+WHERE P.CategoryID BETWEEN @StartSCategoryID AND @EndCategoryID
+AND P.BrandID BETWEEN @StartBrandID AND @EndBrandID 
+AND L.LocationID BETWEEN @StartLocationID AND @EndLocationID
+AND L.Quantity <= P.ReorderLevel
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_ProductList_Report]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_ProductList_Report]
+(
+	@CategoryID INT = 0,
+	@BrandID INT = 0,
+	@LocationID INT = 0 
+)
+AS
+
+SELECT	P.ProductID,
+		P.ProductName,
+		P.Description,
+		P.UnitPrice,
+		Convert(varchar(12),P.ExpiryDate,106) ExpiryDate,
+		Convert(varchar(12),P.ManufactureDate,106) ManufactureDate,
+		L.Id,
+		P.PurchasePrice,
+		P.SellingPrice,
+		P.ReorderLevel,
+		PL.Quantity,
+		L.Name Location,
+		S.Name Supplier,
+		C.Name Category,
+		B.BrandName
+		
+FROM Products P
+
+JOIN ProductLocations PL
+ON P.ProductID = PL.ProductID
+
+JOIN Locations L
+ON L.Id = PL.LocationID
+
+JOIN Suppliers S
+ON P.SupplierID = S.SupplierID
+
+JOIN Categories C
+ON P.CategoryID = C.CategoryID
+
+JOIN Brands B
+ON P.BrandID = B.BrandID
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_ProductPriceList_Report]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_ProductPriceList_Report]
+(
+	@CategoryID INT = 0,
+	@BrandID INT = 0,
+	@LocationID INT = 0 
+)
+AS
+
+SELECT	DISTINCT
+		P.ProductName,
+		P.UnitPrice
+		
+		
+FROM Products P
+
+JOIN ProductLocations PL
+ON P.ProductID = PL.ProductID
+
+JOIN Locations L
+ON L.Id = PL.LocationID
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_ReorderList_Report]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_ReorderList_Report]
+(
+	@CategoryID INT = 0,
+	@BrandID INT = 0,
+	@LocationID INT = 0 
+)
+AS
+
+SELECT	P.ProductID,
+		P.ProductName,
+		P.Description,
+		P.UnitPrice,
+		Convert(varchar(12),P.ExpiryDate,106) ExpiryDate,
+		Convert(varchar(12),P.ManufactureDate,106) ManufactureDate,
+		L.Id,
+		P.PurchasePrice,
+		P.SellingPrice,
+		P.ReorderLevel,
+		PL.Quantity,
+		L.Name Location,
+		S.Name Supplier,
+		C.Name Category,
+		B.BrandName,
+		M.Description Measurement
+		
+FROM Products P
+
+JOIN ProductLocations PL
+ON P.ProductID = PL.ProductID
+
+JOIN Locations L
+ON L.Id = PL.LocationID
+
+JOIN Suppliers S
+ON P.SupplierID = S.SupplierID
+
+JOIN Categories C
+ON P.CategoryID = C.CategoryID
+
+JOIN Brands B
+ON P.BrandID = B.BrandID
+
+JOIN Measurements M
+ON P.MeasurementID = M.Id
+
+WHERE PL.Quantity <= P.ReorderLevel
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_StcokDetails]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_StcokDetails] 
+(
+	@SalesStartDate varchar(20) = '',
+	@SaleEndDate varchar(20)  = ''
+)
+AS
+
+DECLARE @StartDate varchar(20),
+		@EndDate varchar(20)
+		
+IF(@SalesStartDate = '')
+SELECT  @StartDate  = MIN (Convert(date,S.InvoiceDate)),
+		@EndDate	= MAX (Convert(date,S.InvoiceDate))
+FROM Sales S
+ELSE
+SELECT  @StartDate  = @SalesStartDate,
+		@EndDate	= @SaleEndDate
+
+SELECT	P.ProductName,
+		SUM(S.Quantity) QTYSOLD,
+		SUM(S.LineTotal) VALUEOFQTYSOLD,
+		PL.Quantity,
+		VALUEOFQTYONHAND = (PL.Quantity * P.UnitPrice),
+		L.Name Location,
+		C.Name Category
+		 
+FROM Products P
+
+JOIN SaleDetails S
+ON P.ProductID = S.ProductID
+
+JOIN Sales SA
+ON S.SaleID = SA.SaleID
+
+JOIN ProductLocations PL
+ON P.ProductID = PL.ProductID
+
+JOIN Locations L
+ON PL.LocationID = L.Id
+
+JOIN Categories C
+ON P.CategoryID = C.CategoryID
+
+WHERE Convert(date,SA.InvoiceDate) BETWEEN @StartDate AND @EndDate
+
+GROUP BY P.ProductName,PL.Quantity,(PL.Quantity * P.UnitPrice),L.Name,C.Name
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_StcokDetails_Report]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_StcokDetails_Report] 
+(
+	@SalesStartDate varchar(20) = '',
+	@SaleEndDate varchar(20)  = ''
+)
+AS
+
+DECLARE @StartDate varchar(20),
+		@EndDate varchar(20)
+		
+IF(@SalesStartDate = '')
+SELECT  @StartDate  = MIN (Convert(date,S.InvoiceDate)),
+		@EndDate	= MAX (Convert(date,S.InvoiceDate))
+FROM Sales S
+ELSE
+SELECT  @StartDate  = @SalesStartDate,
+		@EndDate	= @SaleEndDate
+
+SELECT	P.ProductName,
+		SUM(S.Quantity) QTYSOLD,
+		SUM(S.LineTotal) VALUEOFQTYSOLD,
+		PL.Quantity QtyInStock,
+		VALUEOFQTYONHAND = (PL.Quantity * P.UnitPrice),
+		L.Name Location,
+		C.Name Category,
+		M.Description Measurement,
+		ParaStartDate = Convert(varchar(12),@SalesStartDate,106),
+		ParaEndDate   =  Convert(varchar(12),@SaleEndDate,106)
+		 
+FROM Products P
+
+JOIN SaleDetails S
+ON P.ProductID = S.ProductID
+
+JOIN Sales SA
+ON S.SaleID = SA.SaleID
+
+JOIN ProductLocations PL
+ON P.ProductID = PL.ProductID
+
+JOIN Locations L
+ON PL.LocationID = L.Id
+AND L.Id = SA.LocationID
+
+JOIN Categories C
+ON P.CategoryID = C.CategoryID
+
+JOIN Measurements M
+ON P.MeasurementID = M.Id
+
+WHERE Convert(date,SA.InvoiceDate) BETWEEN @StartDate AND @EndDate
+
+GROUP BY P.ProductName,PL.Quantity,(PL.Quantity * P.UnitPrice),L.Name,C.Name,M.Description
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_StockAjustments_Report]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_StockAjustments_Report]
+(
+ @StartDate varchar(20) = '',
+ @EndDate varchar(20) = ''
+)
+
+AS
+
+DECLARE @dtStartDate varchar(20),
+		@dtEndDate varchar(20)
+		
+IF(@StartDate = '')
+SELECT  @dtStartDate  = MIN (Convert(varchar(12),P.AdjustmentDate,106)),
+		@dtEndDate	  = MAX (Convert(varchar(12),P.AdjustmentDate,106))
+FROM ProductAdjustments P
+ELSE
+SELECT  @dtStartDate  = @StartDate,
+		@dtEndDate	=  @EndDate
+		
+SELECT	Convert(varchar(12),P.AdjustmentDate,106) AdjustmentDate,
+		P.CurrentQty InitialQuantity,
+		P.Difference QtyDifferenceAfterAdjustment,
+		P.NewQty QuantityAfterAdjustment,
+		P.Remarks Comment,
+		L.Name Location,
+		E.OtherNames + ', ' + E.FisrtName Employee,
+		D.ProductName
+		
+		
+FROM ProductAdjustments P
+
+JOIN ProductLocations S
+ON P.ProductID = S.ProductID
+
+ JOIN Employees E
+ON P.EmployeeID = E.EmployeeID
+
+JOIN Locations L
+ON L.Id = S.LocationID
+
+JOIN Products D
+ON P.ProductID = D.ProductID
+
+WHERE  Convert(varchar(12),P.AdjustmentDate,106) BETWEEN @dtStartDate AND @dtEndDate
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_StockTransfers]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_StockTransfers]
+(
+ @StartDate varchar(20) = '',
+ @EndDate varchar(20) = ''
+)
+
+AS
+
+DECLARE @dtStartDate varchar(20),
+		@dtEndDate varchar(20)
+
+IF(@StartDate = '')
+SELECT  @dtStartDate  = MIN (Convert(varchar(12),P.TransferDate,106)),
+		@dtEndDate	= MAX (Convert(varchar(12),P.TransferDate,106))
+FROM StockTranfers P
+ELSE
+SELECT  @dtStartDate  = @StartDate,
+		@dtEndDate	=  @EndDate
+
+
+SELECT  L.Name FromLocation,
+		C.Name ToLocation,
+		R.ProductName,
+		FromLocationQtyBeforeTranfer,
+		FromLocationQtyAfterTransfer,
+		ToLocationBeforeTransfer,
+		ToLocationAfterTranfer,
+		TransferDate,
+		TransferQty,
+	    ParaStartDate = Convert(varchar(12),@StartDate,106),
+		ParaEndDate   = Convert(varchar(12),@EndDate,106)
+
+FROM StockTranfers P
+JOIN Locations L
+ON P.FromLocationID = L.Id
+
+JOIN Locations C
+ON P.ToLocationID = C.Id
+
+JOIN Products R
+ON P.ProductID = R.ProductID
+
+WHERE  Convert(varchar(12),P.TransferDate,106) BETWEEN @dtStartDate AND @dtEndDate
+
+GO
+/****** Object:  StoredProcedure [dbo].[prc_StockTransfers_Report]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prc_StockTransfers_Report]
+(
+ @StartDate varchar(20) = '',
+ @EndDate varchar(20) = ''
+)
+
+AS
+
+DECLARE @dtStartDate varchar(20),
+		@dtEndDate varchar(20)
+
+IF(@StartDate = '')
+SELECT  @dtStartDate  = MIN (Convert(varchar(12),P.TransferDate,106)),
+		@dtEndDate	= MAX (Convert(varchar(12),P.TransferDate,106))
+FROM StockTranfers P
+ELSE
+SELECT  @dtStartDate  = @StartDate,
+		@dtEndDate	=  @EndDate
+
+
+SELECT  L.Name FromLocation,
+		C.Name ToLocation,
+		R.ProductName Product,
+		FromLocationQtyBeforeTranfer,
+		FromLocationQtyAfterTransfer,
+		ToLocationBeforeTransfer,
+		ToLocationAfterTranfer,
+		Convert(varchar(12),P.TransferDate,106) TransferDate,
+		TransferQty,
+	    ParaStartDate = Convert(varchar(12),@StartDate,106),
+		ParaEndDate   = Convert(varchar(12),@EndDate,106)
+
+FROM StockTranfers P
+JOIN Locations L
+ON P.FromLocationID = L.Id
+
+JOIN Locations C
+ON P.ToLocationID = C.Id
+
+JOIN Products R
+ON P.ProductID = R.ProductID
+
+WHERE  Convert(varchar(12),P.TransferDate,106) BETWEEN @dtStartDate AND @dtEndDate
+
+GO
+/****** Object:  StoredProcedure [dbo].[prcCurrentStock]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[prcCurrentStock]
+(
+	@ProductName varchar(30) = '',
+	@ProductCode varchar(20) = '',
+	@CategoryID int = 0,
+	@LocationID int = 0
+)
+AS
+
+DECLARE @CategoryName varchar(20),
+		@LocatioName varchar(20)
+
+SET @CategoryName = (SELECT C.Name
+					FROM Categories C WHERE C.CategoryID = @CategoryID)
+
+SET @LocatioName = (SELECT L.Name 
+					FROM Locations L WHERE L.Id = @LocationID)
+
+SELECT	P.ProductID,
+		P.ProductName,
+		C.CategoryID,
+		C.Name CategoryName,
+		PL.LocationID,
+		PL.Quantity,
+		L.Name Location
+
+FROM Products P
+
+JOIN Categories C
+ON P.CategoryID = C.CategoryID
+
+JOIN ProductLocations PL
+ON P.ProductID = PL.ProductID
+
+JOIN Locations L
+ON PL.LocationID = L.Id
+
+WHERE P.ProductName LIKE @ProductName + '%'
+	  AND P.ProductNum LIKE @ProductCode + '%'
+	  AND C.Name LIKE ISNULL(@CategoryName,'') + '%'
+	  AND L.Name LIKE ISNULL(@LocatioName,'') + '%'
+
+GO
+/****** Object:  Table [dbo].[AccessRights]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[AccessRights](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FormID] [varchar](50) NULL,
+	[UserID] [int] NULL,
+	[CanView] [bit] NULL,
+	[CanEdit] [bit] NULL,
+ CONSTRAINT [PK_AccessRights] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Addresses]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Addresses](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+ CONSTRAINT [PK_Addresses] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[AddressTypes]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AddressTypes](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+ CONSTRAINT [PK_AddressTypes] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[BackupDetails]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[BackupDetails](
+	[BackupID] [int] IDENTITY(1,1) NOT NULL,
+	[BackupDate] [datetime] NULL,
+	[BackupFolder] [varchar](100) NULL,
+	[StartTime] [varchar](10) NULL,
+	[EndTime] [varchar](10) NULL,
+	[Comments] [nvarchar](max) NOT NULL,
+	[UserID] [smallint] NOT NULL,
+ CONSTRAINT [PK_BackupDetails] PRIMARY KEY CLUSTERED 
+(
+	[BackupID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Brands]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Brands](
+	[BrandID] [int] IDENTITY(1,1) NOT NULL,
+	[BrandName] [nvarchar](20) NOT NULL,
+	[Description] [nvarchar](100) NULL,
+ CONSTRAINT [PK_Brands] PRIMARY KEY CLUSTERED 
+(
+	[BrandID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[CardInformations]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CardInformations](
+	[CardID] [int] IDENTITY(1,1) NOT NULL,
+	[CardType] [nvarchar](30) NOT NULL,
+ CONSTRAINT [PK_CardInformations] PRIMARY KEY CLUSTERED 
+(
+	[CardID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Categories]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Categories](
+	[CategoryID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[Comment] [nvarchar](max) NULL,
+ CONSTRAINT [PK_Categories] PRIMARY KEY CLUSTERED 
+(
+	[CategoryID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Companies]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Companies](
+	[CompanyNum] [nvarchar](20) NULL,
+	[CompanyName] [nvarchar](30) NOT NULL,
+	[Address1] [nvarchar](100) NOT NULL,
+	[Address2] [nvarchar](100) NULL,
+	[Address3] [nvarchar](100) NULL,
+	[PhoneLine1] [nvarchar](20) NOT NULL,
+	[PhoneLine2] [nvarchar](20) NULL,
+	[PhoneLine3] [nvarchar](20) NULL,
+	[Motto] [nvarchar](150) NULL,
+	[Logo] [varbinary](max) NULL,
+	[Location] [nvarchar](50) NULL,
+	[FaxNumber] [nvarchar](20) NULL,
+	[Email] [nvarchar](50) NULL,
+	[CompanyID] [int] IDENTITY(1,1) NOT NULL,
+	[Misc] [nvarchar](100) NULL,
+	[DefaultLocation] [int] NULL,
+	[WebSite] [nvarchar](50) NULL,
+	[City] [nvarchar](50) NULL,
+	[Country] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Companies] PRIMARY KEY CLUSTERED 
+(
+	[CompanyID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[CompanyDetails]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[CompanyDetails](
+	[CompanyID] [int] IDENTITY(1,1) NOT NULL,
+	[CompanyName] [varchar](50) NULL,
+	[Motto] [varchar](100) NULL,
+	[CompanyAddress] [varchar](100) NULL,
+	[LandLine] [varchar](20) NULL,
+	[Mobile] [varchar](20) NULL,
+	[Logo] [varbinary](max) NULL,
+	[City] [varchar](50) NULL,
+	[Email] [varchar](50) NULL,
+	[Website] [varchar](20) NULL,
+	[Fax] [varchar](20) NULL,
+	[MiscInfo] [varchar](200) NULL,
+ CONSTRAINT [PK_CompanyDetails] PRIMARY KEY CLUSTERED 
+(
+	[CompanyID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Controls]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Controls](
+	[Page] [varchar](50) NOT NULL,
+	[ControlID] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_ControlPermissions] PRIMARY KEY CLUSTERED 
+(
+	[Page] ASC,
+	[ControlID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[ControlsToRoles]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[ControlsToRoles](
+	[FKRole] [int] NOT NULL,
+	[FKPage] [varchar](50) NOT NULL,
+	[FKControlID] [varchar](50) NOT NULL,
+	[Invisible] [int] NOT NULL,
+	[Disabled] [int] NOT NULL,
+ CONSTRAINT [PK_PermissionsToRoles] PRIMARY KEY CLUSTERED 
+(
+	[FKRole] ASC,
+	[FKPage] ASC,
+	[FKControlID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Countries]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Countries](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_Countries] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Customers]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Customers](
+	[CustomerNum] [nvarchar](20) NULL,
+	[Surname] [nvarchar](50) NULL,
+	[OtherNames] [nvarchar](50) NULL,
+	[Sex] [char](10) NULL,
+	[CustomerTypeID] [int] NULL,
+	[PhoneNumber1] [nvarchar](20) NULL,
+	[PhoneNumber2] [nvarchar](20) NULL,
+	[PhoneNumber3] [nvarchar](20) NULL,
+	[EmailAddress] [nvarchar](50) NULL,
+	[Website] [nvarchar](50) NULL,
+	[Discount] [decimal](18, 2) NULL,
+	[CreditLimit] [decimal](18, 2) NULL,
+	[DateAdded] [datetime] NOT NULL,
+	[IsActive] [bit] NULL,
+	[CustomerName] [varchar](30) NULL,
+	[ContactPerson] [nvarchar](100) NULL,
+	[PostalAddress] [nvarchar](100) NULL,
+	[LocationAdress] [nvarchar](100) NULL,
+	[Remarks] [nvarchar](200) NULL,
+	[CustomerSince] [datetime] NULL,
+	[Salutation] [nchar](10) NULL,
+	[Country] [nvarchar](50) NULL,
+	[City] [nvarchar](50) NULL,
+	[CustomerID] [int] IDENTITY(1,1) NOT NULL,
+ CONSTRAINT [PK_Customers] PRIMARY KEY CLUSTERED 
+(
+	[CustomerID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Employees]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Employees](
+	[EmployeeNum] [nvarchar](20) NULL,
+	[FisrtName] [nvarchar](50) NULL,
+	[OtherNames] [nvarchar](100) NULL,
+	[Sex] [nchar](10) NULL,
+	[PhoneNumber1] [nvarchar](50) NULL,
+	[PhoneNumber2] [nvarchar](50) NULL,
+	[PhoneNumber3] [nvarchar](50) NULL,
+	[Title] [nvarchar](50) NULL,
+	[Email] [nvarchar](50) NULL,
+	[JobTitle] [nvarchar](50) NULL,
+	[StoreID] [nvarchar](20) NULL,
+	[CardID] [int] NULL,
+	[EmployeeID] [int] IDENTITY(1,1) NOT NULL,
+	[Address] [nvarchar](100) NULL,
+	[EmployeeSince] [datetime] NULL,
+	[ContactPerson] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Employees] PRIMARY KEY CLUSTERED 
+(
+	[EmployeeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[ErrorLogs]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ErrorLogs](
+	[ErrorLogID] [int] IDENTITY(1,1) NOT NULL,
+	[CustomMessage] [nvarchar](max) NULL,
+	[ExceptionStackTrace] [nvarchar](max) NULL,
+	[ExceptionMessage] [nvarchar](max) NULL,
+	[InnerExeptionMessage] [nvarchar](max) NULL,
+	[InnerExceptionStackTrace] [nvarchar](max) NULL,
+	[ExceptionDate] [datetime] NULL,
+	[ControlName] [nvarchar](100) NULL,
+	[FormName] [nvarchar](100) NULL,
+ CONSTRAINT [PK_ErrorLogs] PRIMARY KEY CLUSTERED 
+(
+	[ErrorLogID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[InvoiceNumbers]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[InvoiceNumbers](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[InvoiceNum] [bigint] NOT NULL,
+ CONSTRAINT [PK_InvoiceNumbers] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[LabelSettings]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[LabelSettings](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[ListStart] [int] NULL,
+	[ListEnd] [int] NULL,
+	[LabelLenghth] [int] NULL,
+	[QtyToPrint] [int] NULL,
+	[BarcodeType] [varchar](20) NULL,
+	[BorderType] [varchar](20) NULL,
+	[FontFamily] [varchar](20) NULL,
+	[ForeColor] [varchar](20) NULL,
+	[BarHeight] [int] NULL,
+	[FontSize] [int] NULL,
+	[ShowTest] [bit] NULL,
+	[ShowBorder] [bit] NULL,
+	[ShowCheckSum] [bit] NULL,
+ CONSTRAINT [PK_LabelSettings] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Locations]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Locations](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](max) NOT NULL,
+	[IsDefault] [bit] NULL,
+	[Comment] [nvarchar](100) NULL,
+ CONSTRAINT [PK_Locations] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Measurements]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Measurements](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Description] [nvarchar](max) NOT NULL,
+	[Name] [nvarchar](20) NULL,
+ CONSTRAINT [PK_Measurements] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[PaymentModes]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[PaymentModes](
+	[PaymentModeID] [int] IDENTITY(1,1) NOT NULL,
+	[PayMode] [varchar](20) NULL,
+ CONSTRAINT [PK_PaymentModes] PRIMARY KEY CLUSTERED 
+(
+	[PaymentModeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[ProductAdjustments]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ProductAdjustments](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[ProductID] [int] NOT NULL,
+	[LocationID] [int] NOT NULL,
+	[ProductLocationID] [int] NOT NULL,
+	[CurrentQty] [int] NOT NULL,
+	[NewQty] [int] NOT NULL,
+	[Difference] [int] NOT NULL,
+	[AdjustmentDate] [datetime] NULL,
+	[Remarks] [nvarchar](500) NULL,
+	[EmployeeID] [int] NULL,
+ CONSTRAINT [PK_ProductAdjustments] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[ProductLocations]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ProductLocations](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[LocationID] [int] NOT NULL,
+	[ProductID] [int] NOT NULL,
+	[Quantity] [int] NOT NULL,
+ CONSTRAINT [PK_ProductLocations] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Products]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Products](
+	[Barcode] [nvarchar](50) NULL,
+	[ProductName] [nvarchar](50) NOT NULL,
+	[Description] [nvarchar](50) NULL,
+	[Quantity] [int] NOT NULL,
+	[UnitPrice] [decimal](18, 2) NOT NULL,
+	[CategoryID] [int] NOT NULL,
+	[ManufactureDate] [datetime] NULL,
+	[ExpiryDate] [datetime] NULL,
+	[ReorderLevel] [int] NULL,
+	[PurchasePrice] [decimal](18, 2) NULL,
+	[SellingPrice] [decimal](18, 2) NOT NULL,
+	[ProductImage] [varbinary](max) NULL,
+	[OnSale] [bit] NULL,
+	[SupplierID] [int] NOT NULL,
+	[ProductNum] [nvarchar](20) NOT NULL,
+	[Commission] [decimal](10, 8) NULL,
+	[Discount] [decimal](10, 8) NULL,
+	[DateAdded] [datetime] NULL,
+	[LastDateAdjusted] [datetime] NULL,
+	[EmployeeID] [nvarchar](20) NULL,
+	[BrandID] [int] NOT NULL,
+	[AdjustmentReason] [nvarchar](150) NULL,
+	[ProductID] [int] IDENTITY(1,1) NOT NULL,
+	[LocationID] [int] NOT NULL,
+	[MeasurementID] [int] NOT NULL,
+ CONSTRAINT [PK_Products] PRIMARY KEY CLUSTERED 
+(
+	[ProductID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[PurchaseDetails]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PurchaseDetails](
+	[InvoiceNumber] [nvarchar](20) NULL,
+	[ProductID] [nvarchar](20) NULL,
+	[Quantity] [int] NULL,
+	[UnitPrice] [decimal](18, 2) NULL,
+	[PurchaseDetailID] [int] IDENTITY(1,1) NOT NULL,
+	[Discount] [decimal](18, 2) NULL,
+	[Tax] [decimal](18, 2) NULL,
+ CONSTRAINT [PK_PurchaseDetails] PRIMARY KEY CLUSTERED 
+(
+	[PurchaseDetailID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Purchases]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Purchases](
+	[InvoiceNumber] [nvarchar](20) NOT NULL,
+	[SupplierID] [nvarchar](20) NOT NULL,
+	[PurchaseAmount] [decimal](18, 2) NOT NULL,
+	[PurchaseDate] [datetime] NOT NULL,
+	[AmountPaid] [decimal](18, 0) NULL,
+	[Balance] [decimal](18, 0) NULL,
+	[StoreID] [int] NULL,
+	[PurchaseType] [nchar](10) NULL,
+	[EmployeeID] [nvarchar](20) NULL,
+	[PurchasetypeID] [int] NULL,
+	[DetailedAccountID] [varchar](20) NULL,
+	[BillState] [varchar](10) NULL,
+	[Discount] [decimal](18, 2) NULL,
+	[Tax] [decimal](18, 2) NULL,
+	[PromisedDate] [datetime] NULL,
+	[DateClosed] [datetime] NULL,
+	[PurchaseOrderNo] [varchar](20) NULL,
+ CONSTRAINT [PK_Purchases] PRIMARY KEY CLUSTERED 
+(
+	[InvoiceNumber] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Roles]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Roles](
+	[RoleID] [int] IDENTITY(1,1) NOT NULL,
+	[RoleName] [varchar](20) NULL,
+ CONSTRAINT [PK_Roles] PRIMARY KEY CLUSTERED 
+(
+	[RoleID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[SaleDetails]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SaleDetails](
+	[InvoiceNumber] [nvarchar](20) NOT NULL,
+	[UnitPrice] [decimal](18, 2) NOT NULL,
+	[Quantity] [int] NOT NULL,
+	[SalesDetailsID] [int] IDENTITY(1,1) NOT NULL,
+	[ProductID] [nvarchar](20) NULL,
+	[Discount] [decimal](18, 2) NULL,
+	[Tax] [decimal](18, 2) NULL,
+	[SaleID] [int] NOT NULL,
+	[LineTotal] [decimal](8, 2) NULL,
+	[LocationID] [int] NULL,
+ CONSTRAINT [PK_SaleDetails] PRIMARY KEY CLUSTERED 
+(
+	[SalesDetailsID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Sales]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Sales](
+	[InvoiceNumber] [nvarchar](20) NOT NULL,
+	[Amount] [decimal](18, 2) NOT NULL,
+	[InvoiceDate] [datetime] NOT NULL,
+	[AmountPaid] [decimal](18, 2) NULL,
+	[Balance] [decimal](18, 2) NULL,
+	[EmployeeID] [nvarchar](20) NULL,
+	[StoreID] [int] NULL,
+	[CustomerID] [nvarchar](20) NULL,
+	[SaleTypeID] [int] NULL,
+	[InvoiceState] [varchar](10) NULL,
+	[Discount] [decimal](18, 2) NULL,
+	[Tax] [decimal](18, 2) NULL,
+	[PromisedDate] [datetime] NULL,
+	[DateClosed] [datetime] NULL,
+	[CustomerPO] [varchar](40) NULL,
+	[PaymentModeID] [int] NULL,
+	[VoidSale] [bit] NULL,
+	[VoucherCode] [varchar](20) NULL,
+	[SaleStatusID] [int] NULL,
+	[SaleID] [int] IDENTITY(1,1) NOT NULL,
+	[SubTotal] [decimal](8, 2) NULL,
+	[LocationID] [int] NULL,
+ CONSTRAINT [PK_Sales] PRIMARY KEY CLUSTERED 
+(
+	[SaleID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[SaleStatuses]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SaleStatuses](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Status] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_SaleStatuses] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[SaleTypes]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SaleTypes](
+	[SaleTypeID] [int] IDENTITY(1,1) NOT NULL,
+	[TypeName] [nvarchar](30) NOT NULL,
+ CONSTRAINT [PK_SaleTypes] PRIMARY KEY CLUSTERED 
+(
+	[SaleTypeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[StockTranfers]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[StockTranfers](
+	[StockTranferID] [int] IDENTITY(1,1) NOT NULL,
+	[FromLocationID] [int] NULL,
+	[FromLocationQtyBeforeTranfer] [int] NULL,
+	[FromLocationQtyAfterTransfer] [int] NULL,
+	[ToLocationID] [int] NULL,
+	[ToLocationBeforeTransfer] [int] NULL,
+	[ToLocationAfterTranfer] [int] NULL,
+	[ProductID] [int] NULL,
+	[UserID] [int] NULL,
+	[TransferDate] [datetime] NULL,
+	[TransferQty] [int] NULL,
+ CONSTRAINT [PK_StockTranfers] PRIMARY KEY CLUSTERED 
+(
+	[StockTranferID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Suppliers]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Suppliers](
+	[SupplierNum] [nvarchar](20) NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[ContactPerson] [nvarchar](50) NULL,
+	[PostalAddress] [nvarchar](100) NULL,
+	[LocationAdress] [nvarchar](100) NULL,
+	[PhoneNumber1] [nvarchar](50) NULL,
+	[PhoneNumber2] [nvarchar](50) NULL,
+	[PhoneNumber3] [nvarchar](50) NULL,
+	[Email] [nvarchar](50) NULL,
+	[Website] [nvarchar](50) NULL,
+	[Remarks] [varchar](200) NULL,
+	[SupplierSince] [datetime] NULL,
+	[Salutation] [nchar](10) NULL,
+	[Country] [nvarchar](50) NULL,
+	[City] [nvarchar](50) NULL,
+	[IsActive] [bit] NULL,
+	[SupplierID] [int] IDENTITY(1,1) NOT NULL,
+ CONSTRAINT [PK_Suppliers] PRIMARY KEY CLUSTERED 
+(
+	[SupplierID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Taxes]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Taxes](
+	[TaxID] [int] IDENTITY(1,1) NOT NULL,
+	[TaxName] [nvarchar](50) NOT NULL,
+	[TaxRate] [decimal](10, 5) NOT NULL,
+	[TaxNumber] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Taxes] PRIMARY KEY CLUSTERED 
+(
+	[TaxID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Users](
+	[UserID] [int] IDENTITY(1,1) NOT NULL,
+	[UserName] [varchar](20) NULL,
+	[UserPassword] [varchar](20) NULL,
+	[EmployeeID] [int] NULL,
+	[DateCreated] [datetime] NULL,
+	[LastLogInDate] [datetime] NULL,
+	[RoleID] [int] NULL,
+	[Active] [bit] NULL,
+	[IsAdmin] [bit] NULL,
+ CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[UserID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[UsersToRoles]    Script Date: 4/8/2014 10:23:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UsersToRoles](
+	[FKUserID] [int] NOT NULL,
+	[FKRoleID] [int] NOT NULL,
+ CONSTRAINT [PK_UsersToRoles] PRIMARY KEY CLUSTERED 
+(
+	[FKUserID] ASC,
+	[FKRoleID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Index [IX_FK_ProductLocationLocation]    Script Date: 4/8/2014 10:23:33 AM ******/
+CREATE NONCLUSTERED INDEX [IX_FK_ProductLocationLocation] ON [dbo].[ProductLocations]
+(
+	[LocationID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_FK_ProductLocationProduct]    Script Date: 4/8/2014 10:23:33 AM ******/
+CREATE NONCLUSTERED INDEX [IX_FK_ProductLocationProduct] ON [dbo].[ProductLocations]
+(
+	[ProductID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_FK_MeasurementProduct]    Script Date: 4/8/2014 10:23:33 AM ******/
+CREATE NONCLUSTERED INDEX [IX_FK_MeasurementProduct] ON [dbo].[Products]
+(
+	[MeasurementID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_FK_ProductBrand]    Script Date: 4/8/2014 10:23:33 AM ******/
+CREATE NONCLUSTERED INDEX [IX_FK_ProductBrand] ON [dbo].[Products]
+(
+	[BrandID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_FK_ProductCategory]    Script Date: 4/8/2014 10:23:33 AM ******/
+CREATE NONCLUSTERED INDEX [IX_FK_ProductCategory] ON [dbo].[Products]
+(
+	[CategoryID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_FK_ProductSupplier]    Script Date: 4/8/2014 10:23:33 AM ******/
+CREATE NONCLUSTERED INDEX [IX_FK_ProductSupplier] ON [dbo].[Products]
+(
+	[SupplierID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_FK_SaleSaleDetail]    Script Date: 4/8/2014 10:23:33 AM ******/
+CREATE NONCLUSTERED INDEX [IX_FK_SaleSaleDetail] ON [dbo].[SaleDetails]
+(
+	[SaleID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[ControlsToRoles]  WITH CHECK ADD  CONSTRAINT [FK_PermissionsToRoles_ControlPermissions] FOREIGN KEY([FKPage], [FKControlID])
+REFERENCES [dbo].[Controls] ([Page], [ControlID])
+GO
+ALTER TABLE [dbo].[ControlsToRoles] CHECK CONSTRAINT [FK_PermissionsToRoles_ControlPermissions]
+GO
+ALTER TABLE [dbo].[ControlsToRoles]  WITH CHECK ADD  CONSTRAINT [FK_PermissionsToRoles_Roles] FOREIGN KEY([FKRole])
+REFERENCES [dbo].[Roles] ([RoleID])
+GO
+ALTER TABLE [dbo].[ControlsToRoles] CHECK CONSTRAINT [FK_PermissionsToRoles_Roles]
+GO
+ALTER TABLE [dbo].[ProductLocations]  WITH CHECK ADD  CONSTRAINT [FK_ProductLocationLocation] FOREIGN KEY([LocationID])
+REFERENCES [dbo].[Locations] ([Id])
+GO
+ALTER TABLE [dbo].[ProductLocations] CHECK CONSTRAINT [FK_ProductLocationLocation]
+GO
+ALTER TABLE [dbo].[ProductLocations]  WITH CHECK ADD  CONSTRAINT [FK_ProductLocationProduct] FOREIGN KEY([ProductID])
+REFERENCES [dbo].[Products] ([ProductID])
+GO
+ALTER TABLE [dbo].[ProductLocations] CHECK CONSTRAINT [FK_ProductLocationProduct]
+GO
+ALTER TABLE [dbo].[Products]  WITH CHECK ADD  CONSTRAINT [FK_MeasurementProduct] FOREIGN KEY([MeasurementID])
+REFERENCES [dbo].[Measurements] ([Id])
+GO
+ALTER TABLE [dbo].[Products] CHECK CONSTRAINT [FK_MeasurementProduct]
+GO
+ALTER TABLE [dbo].[Products]  WITH CHECK ADD  CONSTRAINT [FK_ProductBrand] FOREIGN KEY([BrandID])
+REFERENCES [dbo].[Brands] ([BrandID])
+GO
+ALTER TABLE [dbo].[Products] CHECK CONSTRAINT [FK_ProductBrand]
+GO
+ALTER TABLE [dbo].[Products]  WITH CHECK ADD  CONSTRAINT [FK_ProductCategory] FOREIGN KEY([CategoryID])
+REFERENCES [dbo].[Categories] ([CategoryID])
+GO
+ALTER TABLE [dbo].[Products] CHECK CONSTRAINT [FK_ProductCategory]
+GO
+ALTER TABLE [dbo].[Products]  WITH CHECK ADD  CONSTRAINT [FK_ProductSupplier] FOREIGN KEY([SupplierID])
+REFERENCES [dbo].[Suppliers] ([SupplierID])
+GO
+ALTER TABLE [dbo].[Products] CHECK CONSTRAINT [FK_ProductSupplier]
+GO
+ALTER TABLE [dbo].[SaleDetails]  WITH CHECK ADD  CONSTRAINT [FK_SaleSaleDetail] FOREIGN KEY([SaleID])
+REFERENCES [dbo].[Sales] ([SaleID])
+GO
+ALTER TABLE [dbo].[SaleDetails] CHECK CONSTRAINT [FK_SaleSaleDetail]
+GO
+ALTER TABLE [dbo].[UsersToRoles]  WITH CHECK ADD  CONSTRAINT [FK_UsersToRoles_Roles] FOREIGN KEY([FKRoleID])
+REFERENCES [dbo].[Roles] ([RoleID])
+GO
+ALTER TABLE [dbo].[UsersToRoles] CHECK CONSTRAINT [FK_UsersToRoles_Roles]
+GO
+ALTER TABLE [dbo].[UsersToRoles]  WITH CHECK ADD  CONSTRAINT [FK_UsersToRoles_Users] FOREIGN KEY([FKUserID])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+ALTER TABLE [dbo].[UsersToRoles] CHECK CONSTRAINT [FK_UsersToRoles_Users]
+GO
+USE [master]
+GO
+ALTER DATABASE [StoreManagerDB] SET  READ_WRITE 
+GO

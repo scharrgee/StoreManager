@@ -1,0 +1,10 @@
+C:\Users\kyekyeku\documents\visual studio 2010\Projects\storeManager\storeManager.ViewModel\bin\Debug\storeManager.ViewModel.dll
+C:\Users\kyekyeku\documents\visual studio 2010\Projects\storeManager\storeManager.ViewModel\bin\Debug\storeManager.ViewModel.pdb
+C:\Users\kyekyeku\documents\visual studio 2010\Projects\storeManager\storeManager.ViewModel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\kyekyeku\documents\visual studio 2010\Projects\storeManager\storeManager.ViewModel\obj\Debug\storeManager.ViewModel.dll
+C:\Users\kyekyeku\documents\visual studio 2010\Projects\storeManager\storeManager.ViewModel\obj\Debug\storeManager.ViewModel.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.ViewModel\bin\Debug\storeManager.ViewModel.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.ViewModel\bin\Debug\storeManager.ViewModel.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.ViewModel\obj\Debug\storeManager.ViewModel.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.ViewModel\obj\Debug\storeManager.ViewModel.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.ViewModel\obj\Debug\storeManager.ViewModel.csprojResolveAssemblyReference.cache

@@ -1,0 +1,12 @@
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.DataAccess\bin\Release\storeManager.DataAccess.dll.config
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.DataAccess\bin\Release\storeManager.DataAccess.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.DataAccess\bin\Release\storeManager.DataAccess.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.DataAccess\bin\Release\storeManager.Entities.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.DataAccess\bin\Release\storeManager.Infractracture.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.DataAccess\bin\Release\storeManager.ViewModel.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.DataAccess\bin\Release\storeManager.Entities.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.DataAccess\bin\Release\storeManager.Infractracture.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.DataAccess\bin\Release\storeManager.ViewModel.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.DataAccess\obj\Release\storeManager.DataAccess.csprojResolveAssemblyReference.cache
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.DataAccess\obj\Release\storeManager.DataAccess.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.DataAccess\obj\Release\storeManager.DataAccess.pdb

@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="StoreManagerDBModelStoreContainer" CdmEntityContainer="StoreManagerDBEntities">
+    <EntitySetMapping Name="Addresses">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Address)">
+        <MappingFragment StoreEntitySet="Addresses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AddressTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.AddressType)">
+        <MappingFragment StoreEntitySet="AddressTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Brands">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Brand)">
+        <MappingFragment StoreEntitySet="Brands">
+          <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Category)">
+        <MappingFragment StoreEntitySet="Categories">
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Companies">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Company)">
+        <MappingFragment StoreEntitySet="Companies">
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="CompanyNum" ColumnName="CompanyNum" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="Address1" ColumnName="Address1" />
+          <ScalarProperty Name="Address2" ColumnName="Address2" />
+          <ScalarProperty Name="Address3" ColumnName="Address3" />
+          <ScalarProperty Name="PhoneLine1" ColumnName="PhoneLine1" />
+          <ScalarProperty Name="PhoneLine2" ColumnName="PhoneLine2" />
+          <ScalarProperty Name="PhoneLine3" ColumnName="PhoneLine3" />
+          <ScalarProperty Name="Motto" ColumnName="Motto" />
+          <ScalarProperty Name="Logo" ColumnName="Logo" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Misc" ColumnName="Misc" />
+          <ScalarProperty Name="DefaultLocation" ColumnName="DefaultLocation" />
+          <ScalarProperty Name="WebSite" ColumnName="WebSite" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Countries">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Country)">
+        <MappingFragment StoreEntitySet="Countries">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Customer)">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="CustomerNum" ColumnName="CustomerNum" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="OtherNames" ColumnName="OtherNames" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+          <ScalarProperty Name="CustomerTypeID" ColumnName="CustomerTypeID" />
+          <ScalarProperty Name="PhoneNumber1" ColumnName="PhoneNumber1" />
+          <ScalarProperty Name="PhoneNumber2" ColumnName="PhoneNumber2" />
+          <ScalarProperty Name="PhoneNumber3" ColumnName="PhoneNumber3" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+          <ScalarProperty Name="PostalAddress" ColumnName="PostalAddress" />
+          <ScalarProperty Name="LocationAdress" ColumnName="LocationAdress" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="CustomerSince" ColumnName="CustomerSince" />
+          <ScalarProperty Name="Salutation" ColumnName="Salutation" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="City" ColumnName="City" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Employee)">
+        <MappingFragment StoreEntitySet="Employees">
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="EmployeeNum" ColumnName="EmployeeNum" />
+          <ScalarProperty Name="FisrtName" ColumnName="FisrtName" />
+          <ScalarProperty Name="OtherNames" ColumnName="OtherNames" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+          <ScalarProperty Name="PhoneNumber1" ColumnName="PhoneNumber1" />
+          <ScalarProperty Name="PhoneNumber2" ColumnName="PhoneNumber2" />
+          <ScalarProperty Name="PhoneNumber3" ColumnName="PhoneNumber3" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+          <ScalarProperty Name="StoreID" ColumnName="StoreID" />
+          <ScalarProperty Name="CardID" ColumnName="CardID" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="EmployeeSince" ColumnName="EmployeeSince" />
+          <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvoiceNumbers">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.InvoiceNumber)">
+        <MappingFragment StoreEntitySet="InvoiceNumbers">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="InvoiceNum" ColumnName="InvoiceNum" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Location)">
+        <MappingFragment StoreEntitySet="Locations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaymentModes">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.PaymentMode)">
+        <MappingFragment StoreEntitySet="PaymentModes">
+          <ScalarProperty Name="PaymentModeID" ColumnName="PaymentModeID" />
+          <ScalarProperty Name="PayMode" ColumnName="PayMode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Product)">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="ManufactureDate" ColumnName="ManufactureDate" />
+          <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+          <ScalarProperty Name="ReorderLevel" ColumnName="ReorderLevel" />
+          <ScalarProperty Name="PurchasePrice" ColumnName="PurchasePrice" />
+          <ScalarProperty Name="SellingPrice" ColumnName="SellingPrice" />
+          <ScalarProperty Name="ProductImage" ColumnName="ProductImage" />
+          <ScalarProperty Name="OnSale" ColumnName="OnSale" />
+          <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+          <ScalarProperty Name="ProductNum" ColumnName="ProductNum" />
+          <ScalarProperty Name="Commission" ColumnName="Commission" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="LastDateAdjusted" ColumnName="LastDateAdjusted" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+          <ScalarProperty Name="AdjustmentReason" ColumnName="AdjustmentReason" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+          <ScalarProperty Name="MeasurementID" ColumnName="MeasurementID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PurchaseDetails">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.PurchaseDetail)">
+        <MappingFragment StoreEntitySet="PurchaseDetails">
+          <ScalarProperty Name="PurchaseDetailID" ColumnName="PurchaseDetailID" />
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="Tax" ColumnName="Tax" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Purchases">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Purchase)">
+        <MappingFragment StoreEntitySet="Purchases">
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+          <ScalarProperty Name="PurchaseAmount" ColumnName="PurchaseAmount" />
+          <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
+          <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="StoreID" ColumnName="StoreID" />
+          <ScalarProperty Name="PurchaseType" ColumnName="PurchaseType" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="PurchasetypeID" ColumnName="PurchasetypeID" />
+          <ScalarProperty Name="DetailedAccountID" ColumnName="DetailedAccountID" />
+          <ScalarProperty Name="BillState" ColumnName="BillState" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="Tax" ColumnName="Tax" />
+          <ScalarProperty Name="PromisedDate" ColumnName="PromisedDate" />
+          <ScalarProperty Name="DateClosed" ColumnName="DateClosed" />
+          <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SaleDetails">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.SaleDetail)">
+        <MappingFragment StoreEntitySet="SaleDetails">
+          <ScalarProperty Name="SalesDetailsID" ColumnName="SalesDetailsID" />
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="Tax" ColumnName="Tax" />
+          <ScalarProperty Name="SaleID" ColumnName="SaleID" />
+          <ScalarProperty Name="LineTotal" ColumnName="LineTotal" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sales">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Sale)">
+        <MappingFragment StoreEntitySet="Sales">
+          <ScalarProperty Name="CustBalance" ColumnName="CustBalance" />
+          <ScalarProperty Name="SaleID" ColumnName="SaleID" />
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="StoreID" ColumnName="StoreID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="SaleTypeID" ColumnName="SaleTypeID" />
+          <ScalarProperty Name="InvoiceState" ColumnName="InvoiceState" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="Tax" ColumnName="Tax" />
+          <ScalarProperty Name="PromisedDate" ColumnName="PromisedDate" />
+          <ScalarProperty Name="DateClosed" ColumnName="DateClosed" />
+          <ScalarProperty Name="CustomerPO" ColumnName="CustomerPO" />
+          <ScalarProperty Name="PaymentModeID" ColumnName="PaymentModeID" />
+          <ScalarProperty Name="VoidSale" ColumnName="VoidSale" />
+          <ScalarProperty Name="VoucherCode" ColumnName="VoucherCode" />
+          <ScalarProperty Name="SaleStatusID" ColumnName="SaleStatusID" />
+          <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SaleStatuses">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.SaleStatus)">
+        <MappingFragment StoreEntitySet="SaleStatuses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SaleTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.SaleType)">
+        <MappingFragment StoreEntitySet="SaleTypes">
+          <ScalarProperty Name="SaleTypeID" ColumnName="SaleTypeID" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Suppliers">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Supplier)">
+        <MappingFragment StoreEntitySet="Suppliers">
+          <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+          <ScalarProperty Name="SupplierNum" ColumnName="SupplierNum" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+          <ScalarProperty Name="PostalAddress" ColumnName="PostalAddress" />
+          <ScalarProperty Name="LocationAdress" ColumnName="LocationAdress" />
+          <ScalarProperty Name="PhoneNumber1" ColumnName="PhoneNumber1" />
+          <ScalarProperty Name="PhoneNumber2" ColumnName="PhoneNumber2" />
+          <ScalarProperty Name="PhoneNumber3" ColumnName="PhoneNumber3" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="SupplierSince" ColumnName="SupplierSince" />
+          <ScalarProperty Name="Salutation" ColumnName="Salutation" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Taxes">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Tax)">
+        <MappingFragment StoreEntitySet="Taxes">
+          <ScalarProperty Name="TaxID" ColumnName="TaxID" />
+          <ScalarProperty Name="TaxName" ColumnName="TaxName" />
+          <ScalarProperty Name="TaxRate" ColumnName="TaxRate" />
+          <ScalarProperty Name="TaxNumber" ColumnName="TaxNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductLocations">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.ProductLocation)">
+        <MappingFragment StoreEntitySet="ProductLocations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CardInformations">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.CardInformation)">
+        <MappingFragment StoreEntitySet="CardInformations">
+          <ScalarProperty Name="CardID" ColumnName="CardID" />
+          <ScalarProperty Name="CardType" ColumnName="CardType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductAdjustments">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.ProductAdjustment)">
+        <MappingFragment StoreEntitySet="ProductAdjustments">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+          <ScalarProperty Name="ProductLocationID" ColumnName="ProductLocationID" />
+          <ScalarProperty Name="CurrentQty" ColumnName="CurrentQty" />
+          <ScalarProperty Name="NewQty" ColumnName="NewQty" />
+          <ScalarProperty Name="Difference" ColumnName="Difference" />
+          <ScalarProperty Name="AdjustmentDate" ColumnName="AdjustmentDate" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CompanyDetails">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.CompanyDetail)">
+        <MappingFragment StoreEntitySet="CompanyDetails">
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="Motto" ColumnName="Motto" />
+          <ScalarProperty Name="CompanyAddress" ColumnName="CompanyAddress" />
+          <ScalarProperty Name="LandLine" ColumnName="LandLine" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Logo" ColumnName="Logo" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="Fax" ColumnName="Fax" />
+          <ScalarProperty Name="MiscInfo" ColumnName="MiscInfo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Role)">
+        <MappingFragment StoreEntitySet="Roles">
+          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="LastLogInDate" ColumnName="LastLogInDate" />
+          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Measurements">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.Measurement)">
+        <MappingFragment StoreEntitySet="Measurements">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ErrorLogs">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.ErrorLog)">
+        <MappingFragment StoreEntitySet="ErrorLogs">
+          <ScalarProperty Name="ErrorLogID" ColumnName="ErrorLogID" />
+          <ScalarProperty Name="CustomMessage" ColumnName="CustomMessage" />
+          <ScalarProperty Name="ExceptionStackTrace" ColumnName="ExceptionStackTrace" />
+          <ScalarProperty Name="ExceptionMessage" ColumnName="ExceptionMessage" />
+          <ScalarProperty Name="InnerExeptionMessage" ColumnName="InnerExeptionMessage" />
+          <ScalarProperty Name="InnerExceptionStackTrace" ColumnName="InnerExceptionStackTrace" />
+          <ScalarProperty Name="ExceptionDate" ColumnName="ExceptionDate" />
+          <ScalarProperty Name="ControlName" ColumnName="ControlName" />
+          <ScalarProperty Name="FormName" ColumnName="FormName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StockTranfers">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.StockTranfer)">
+        <MappingFragment StoreEntitySet="StockTranfers">
+          <ScalarProperty Name="StockTranferID" ColumnName="StockTranferID" />
+          <ScalarProperty Name="FromLocationID" ColumnName="FromLocationID" />
+          <ScalarProperty Name="FromLocationQtyBeforeTranfer" ColumnName="FromLocationQtyBeforeTranfer" />
+          <ScalarProperty Name="FromLocationQtyAfterTransfer" ColumnName="FromLocationQtyAfterTransfer" />
+          <ScalarProperty Name="ToLocationID" ColumnName="ToLocationID" />
+          <ScalarProperty Name="ToLocationBeforeTransfer" ColumnName="ToLocationBeforeTransfer" />
+          <ScalarProperty Name="ToLocationAfterTranfer" ColumnName="ToLocationAfterTranfer" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="TransferDate" ColumnName="TransferDate" />
+          <ScalarProperty Name="TransferQty" ColumnName="TransferQty" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccessRights">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.AccessRight)">
+        <MappingFragment StoreEntitySet="AccessRights">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FormID" ColumnName="FormID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="CanView" ColumnName="CanView" />
+          <ScalarProperty Name="CanEdit" ColumnName="CanEdit" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LabelSettings">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.LabelSetting)">
+        <MappingFragment StoreEntitySet="LabelSettings">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="ListStart" ColumnName="ListStart" />
+          <ScalarProperty Name="ListEnd" ColumnName="ListEnd" />
+          <ScalarProperty Name="LabelLenghth" ColumnName="LabelLenghth" />
+          <ScalarProperty Name="QtyToPrint" ColumnName="QtyToPrint" />
+          <ScalarProperty Name="BarcodeType" ColumnName="BarcodeType" />
+          <ScalarProperty Name="BorderType" ColumnName="BorderType" />
+          <ScalarProperty Name="FontFamily" ColumnName="FontFamily" />
+          <ScalarProperty Name="ForeColor" ColumnName="ForeColor" />
+          <ScalarProperty Name="BarHeight" ColumnName="BarHeight" />
+          <ScalarProperty Name="FontSize" ColumnName="FontSize" />
+          <ScalarProperty Name="ShowTest" ColumnName="ShowTest" />
+          <ScalarProperty Name="ShowBorder" ColumnName="ShowBorder" />
+          <ScalarProperty Name="ShowCheckSum" ColumnName="ShowCheckSum" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BackupDetails">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreManagerDBModel.BackupDetail)">
+        <MappingFragment StoreEntitySet="BackupDetails">
+          <ScalarProperty Name="BackupID" ColumnName="BackupID" />
+          <ScalarProperty Name="BackupDate" ColumnName="BackupDate" />
+          <ScalarProperty Name="BackupFolder" ColumnName="BackupFolder" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomerPaymentHistories">
+      <EntityTypeMapping TypeName="StoreManagerDBModel.CustomerPaymentHistory">
+        <MappingFragment StoreEntitySet="CustomerPaymentHistory">
+          <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="PayAmount" ColumnName="PayAmount" />
+          <ScalarProperty Name="SaleID" ColumnName="SaleID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

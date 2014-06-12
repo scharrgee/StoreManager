@@ -1,0 +1,606 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StoreManagerDBModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="StoreManagerDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Addresses" EntityType="StoreManagerDBModel.Address" />
+    <EntitySet Name="AddressTypes" EntityType="StoreManagerDBModel.AddressType" />
+    <EntitySet Name="Brands" EntityType="StoreManagerDBModel.Brand" />
+    <EntitySet Name="Categories" EntityType="StoreManagerDBModel.Category" />
+    <EntitySet Name="Companies" EntityType="StoreManagerDBModel.Company" />
+    <EntitySet Name="Countries" EntityType="StoreManagerDBModel.Country" />
+    <EntitySet Name="Customers" EntityType="StoreManagerDBModel.Customer" />
+    <EntitySet Name="Employees" EntityType="StoreManagerDBModel.Employee" />
+    <EntitySet Name="InvoiceNumbers" EntityType="StoreManagerDBModel.InvoiceNumber" />
+    <EntitySet Name="Locations" EntityType="StoreManagerDBModel.Location" />
+    <EntitySet Name="PaymentModes" EntityType="StoreManagerDBModel.PaymentMode" />
+    <EntitySet Name="Products" EntityType="StoreManagerDBModel.Product" />
+    <EntitySet Name="PurchaseDetails" EntityType="StoreManagerDBModel.PurchaseDetail" />
+    <EntitySet Name="Purchases" EntityType="StoreManagerDBModel.Purchase" />
+    <EntitySet Name="SaleDetails" EntityType="StoreManagerDBModel.SaleDetail" />
+    <EntitySet Name="Sales" EntityType="StoreManagerDBModel.Sale" />
+    <EntitySet Name="SaleStatuses" EntityType="StoreManagerDBModel.SaleStatus" />
+    <EntitySet Name="SaleTypes" EntityType="StoreManagerDBModel.SaleType" />
+    <EntitySet Name="Suppliers" EntityType="StoreManagerDBModel.Supplier" />
+    <EntitySet Name="Taxes" EntityType="StoreManagerDBModel.Tax" />
+    <AssociationSet Name="FK_ProductBrand" Association="StoreManagerDBModel.FK_ProductBrand">
+      <End Role="Brands" EntitySet="Brands" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductCategory" Association="StoreManagerDBModel.FK_ProductCategory">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductSupplier" Association="StoreManagerDBModel.FK_ProductSupplier">
+      <End Role="Suppliers" EntitySet="Suppliers" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <EntitySet Name="ProductLocations" EntityType="StoreManagerDBModel.ProductLocation" />
+    <AssociationSet Name="FK_ProductLocationLocation" Association="StoreManagerDBModel.FK_ProductLocationLocation">
+      <End Role="Location" EntitySet="Locations" />
+      <End Role="ProductLocation1" EntitySet="ProductLocations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductLocationProduct" Association="StoreManagerDBModel.FK_ProductLocationProduct">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="ProductLocation1" EntitySet="ProductLocations" />
+    </AssociationSet>
+    <EntitySet Name="CardInformations" EntityType="StoreManagerDBModel.CardInformation" />
+    <EntitySet Name="ProductAdjustments" EntityType="StoreManagerDBModel.ProductAdjustment" />
+    <AssociationSet Name="SaleSaleDetail" Association="StoreManagerDBModel.SaleSaleDetail">
+      <End Role="Sale" EntitySet="Sales" />
+      <End Role="SaleDetail" EntitySet="SaleDetails" />
+    </AssociationSet>
+    <EntitySet Name="CompanyDetails" EntityType="StoreManagerDBModel.CompanyDetail" />
+    <EntitySet Name="Roles" EntityType="StoreManagerDBModel.Role" />
+    <EntitySet Name="Users" EntityType="StoreManagerDBModel.User" />
+    <EntitySet Name="Measurements" EntityType="StoreManagerDBModel.Measurement" />
+    <AssociationSet Name="FK_MeasurementProduct" Association="StoreManagerDBModel.FK_MeasurementProduct">
+      <End Role="Measurement" EntitySet="Measurements" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <EntitySet Name="ErrorLogs" EntityType="StoreManagerDBModel.ErrorLog" />
+    <EntitySet Name="StockTranfers" EntityType="StoreManagerDBModel.StockTranfer" />
+    <EntitySet Name="AccessRights" EntityType="StoreManagerDBModel.AccessRight" />
+    <EntitySet Name="LabelSettings" EntityType="StoreManagerDBModel.LabelSetting" />
+    <EntitySet Name="BackupDetails" EntityType="StoreManagerDBModel.BackupDetail" />
+    <EntitySet Name="CustomerPaymentHistories" EntityType="StoreManagerDBModel.CustomerPaymentHistory" />
+  </EntityContainer>
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="AddressType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="Brand">
+    <Key>
+      <PropertyRef Name="BrandID" />
+    </Key>
+    <Property Name="BrandID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BrandName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Description" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Products" Relationship="StoreManagerDBModel.FK_ProductBrand" FromRole="Brands" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Comment" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Products" Relationship="StoreManagerDBModel.FK_ProductCategory" FromRole="Categories" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Name="CompanyNum" Type="String" Nullable="true" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+    <Property Name="Address1" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="Address2" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="Address3" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="PhoneLine1" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="PhoneLine2" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="PhoneLine3" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Motto" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
+    <Property Name="Logo" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Location" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="FaxNumber" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Email" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="CompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Misc" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="DefaultLocation" />
+    <Property Type="String" Name="WebSite" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="City" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Country" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+    </Key>
+    <Property Name="CustomerNum" Type="String" Nullable="true" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Surname" Type="String" Nullable="true" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="OtherNames" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Sex" Type="String" Nullable="true" MaxLength="10" Unicode="false" FixedLength="true" />
+    <Property Name="CustomerTypeID" Type="Int32" Nullable="true" />
+    <Property Name="PhoneNumber1" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="PhoneNumber2" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="PhoneNumber3" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="EmailAddress" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Website" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Discount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CreditLimit" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DateAdded" Type="DateTime" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="CustomerName" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+    <Property Name="ContactPerson" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="PostalAddress" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="LocationAdress" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="Remarks" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="CustomerSince" Type="DateTime" />
+    <Property Name="Salutation" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Name="Country" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="City" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="EmployeeID" />
+    </Key>
+    <Property Name="EmployeeNum" Type="String" Nullable="true" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="FisrtName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="OtherNames" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="Sex" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Name="PhoneNumber1" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="PhoneNumber2" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="PhoneNumber3" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Title" Type="String" Nullable="true" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Email" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="JobTitle" Type="String" Nullable="true" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="StoreID" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="CardID" Type="Int32" />
+    <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Address" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="EmployeeSince" />
+    <Property Type="String" Name="ContactPerson" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="InvoiceNumber">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InvoiceNum" Type="Int64" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Location">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="ProductLocations" Relationship="StoreManagerDBModel.FK_ProductLocationLocation" FromRole="Location" ToRole="ProductLocation1" />
+    <Property Type="Boolean" Name="IsDefault" />
+    <Property Type="String" Name="Comment" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="PaymentMode">
+    <Key>
+      <PropertyRef Name="PaymentModeID" />
+    </Key>
+    <Property Name="PaymentModeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PayMode" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="Barcode" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Description" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="CategoryID" Type="Int32" Nullable="false" />
+    <Property Name="ManufactureDate" Type="DateTime" />
+    <Property Name="ExpiryDate" Type="DateTime" />
+    <Property Name="ReorderLevel" Type="Int32" />
+    <Property Name="PurchasePrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SellingPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="ProductImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="OnSale" Type="Boolean" />
+    <Property Name="SupplierID" Type="Int32" Nullable="false" />
+    <Property Name="ProductNum" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Commission" Type="Decimal" Precision="10" Scale="8" />
+    <Property Name="Discount" Type="Decimal" Precision="10" Scale="8" />
+    <Property Name="DateAdded" Type="DateTime" />
+    <Property Name="LastDateAdjusted" Type="DateTime" />
+    <Property Name="EmployeeID" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="BrandID" Type="Int32" Nullable="false" />
+    <Property Name="AdjustmentReason" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LocationID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Brand" Relationship="StoreManagerDBModel.FK_ProductBrand" FromRole="Products" ToRole="Brands" />
+    <NavigationProperty Name="Category" Relationship="StoreManagerDBModel.FK_ProductCategory" FromRole="Products" ToRole="Categories" />
+    <NavigationProperty Name="Supplier" Relationship="StoreManagerDBModel.FK_ProductSupplier" FromRole="Products" ToRole="Suppliers" />
+    <NavigationProperty Name="ProductLocations" Relationship="StoreManagerDBModel.FK_ProductLocationProduct" FromRole="Product" ToRole="ProductLocation1" />
+    <Property Type="Int32" Name="MeasurementID" Nullable="false" />
+    <NavigationProperty Name="Measurement" Relationship="StoreManagerDBModel.FK_MeasurementProduct" FromRole="Product" ToRole="Measurement" />
+  </EntityType>
+  <EntityType Name="PurchaseDetail">
+    <Key>
+      <PropertyRef Name="PurchaseDetailID" />
+    </Key>
+    <Property Name="InvoiceNumber" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="ProductID" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PurchaseDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Discount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Tax" Type="Decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="Purchase">
+    <Key>
+      <PropertyRef Name="InvoiceNumber" />
+    </Key>
+    <Property Name="InvoiceNumber" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="SupplierID" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="PurchaseAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="PurchaseDate" Type="DateTime" Nullable="false" />
+    <Property Name="AmountPaid" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Balance" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="StoreID" Type="Int32" />
+    <Property Name="PurchaseType" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Name="EmployeeID" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="PurchasetypeID" Type="Int32" />
+    <Property Name="DetailedAccountID" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="BillState" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+    <Property Name="Discount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Tax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PromisedDate" Type="DateTime" />
+    <Property Name="DateClosed" Type="DateTime" />
+    <Property Name="PurchaseOrderNo" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="SaleDetail">
+    <Key>
+      <PropertyRef Name="SalesDetailsID" />
+    </Key>
+    <Property Name="InvoiceNumber" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="SalesDetailsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Discount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Tax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="SaleID" Nullable="false" />
+    <NavigationProperty Name="Sale" Relationship="StoreManagerDBModel.SaleSaleDetail" FromRole="SaleDetail" ToRole="Sale" />
+    <Property Type="Decimal" Name="LineTotal" Precision="8" Scale="2" />
+    <Property Type="Int32" Name="LocationID" />
+  </EntityType>
+  <EntityType Name="Sale">
+    <Key>
+      <PropertyRef Name="SaleID" />
+    </Key>
+    <Property Name="InvoiceNumber" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="InvoiceDate" Type="DateTime" Nullable="false" />
+    <Property Name="AmountPaid" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Balance" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="EmployeeID" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="StoreID" Type="Int32" />
+    <Property Name="CustomerID" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="SaleTypeID" Type="Int32" />
+    <Property Name="InvoiceState" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+    <Property Name="Discount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Tax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PromisedDate" Type="DateTime" />
+    <Property Name="DateClosed" Type="DateTime" />
+    <Property Name="CustomerPO" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
+    <Property Name="PaymentModeID" Type="Int32" />
+    <Property Name="VoidSale" Type="Boolean" />
+    <Property Name="VoucherCode" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Type="Int32" Name="SaleStatusID" />
+    <Property Type="Int32" Name="SaleID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="SaleDetails" Relationship="StoreManagerDBModel.SaleSaleDetail" FromRole="Sale" ToRole="SaleDetail" />
+    <Property Type="Decimal" Name="SubTotal" Precision="8" Scale="2" />
+    <Property Type="Int32" Name="LocationID" />
+    <Property Type="Decimal" Name="CustBalance" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="SaleStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="SaleType">
+    <Key>
+      <PropertyRef Name="SaleTypeID" />
+    </Key>
+    <Property Name="SaleTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="SupplierID" />
+    </Key>
+    <Property Name="SupplierNum" Type="String" Nullable="true" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="ContactPerson" Type="String" Nullable="true" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="PostalAddress" Type="String" Nullable="true" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="LocationAdress" Type="String" Nullable="true" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="PhoneNumber1" Type="String" Nullable="true" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="PhoneNumber2" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="PhoneNumber3" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Email" Type="String" Nullable="true" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Website" Type="String" Nullable="true" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Remarks" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="SupplierSince" Type="DateTime" />
+    <Property Name="Salutation" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Name="Country" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="City" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="SupplierID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Products" Relationship="StoreManagerDBModel.FK_ProductSupplier" FromRole="Suppliers" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Tax">
+    <Key>
+      <PropertyRef Name="TaxID" />
+    </Key>
+    <Property Name="TaxID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TaxName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="TaxRate" Type="Decimal" Nullable="false" Precision="10" Scale="5" />
+    <Property Name="TaxNumber" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_ProductBrand">
+    <End Role="Brands" Type="StoreManagerDBModel.Brand" Multiplicity="1" />
+    <End Role="Products" Type="StoreManagerDBModel.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brands">
+        <PropertyRef Name="BrandID" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="BrandID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductCategory">
+    <End Role="Categories" Type="StoreManagerDBModel.Category" Multiplicity="1" />
+    <End Role="Products" Type="StoreManagerDBModel.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductSupplier">
+    <End Role="Suppliers" Type="StoreManagerDBModel.Supplier" Multiplicity="1" />
+    <End Role="Products" Type="StoreManagerDBModel.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Suppliers">
+        <PropertyRef Name="SupplierID" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="SupplierID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ProductLocation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="LocationID" Nullable="false" />
+    <Property Type="Int32" Name="ProductID" Nullable="false" />
+    <Property Type="Int32" Name="Quantity" Nullable="false" />
+    <NavigationProperty Name="Location" Relationship="StoreManagerDBModel.FK_ProductLocationLocation" FromRole="ProductLocation1" ToRole="Location" />
+    <NavigationProperty Name="Product" Relationship="StoreManagerDBModel.FK_ProductLocationProduct" FromRole="ProductLocation1" ToRole="Product" />
+  </EntityType>
+  <Association Name="FK_ProductLocationLocation">
+    <End Type="StoreManagerDBModel.Location" Role="Location" Multiplicity="1" />
+    <End Type="StoreManagerDBModel.ProductLocation" Role="ProductLocation1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductLocation1">
+        <PropertyRef Name="LocationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductLocationProduct">
+    <End Type="StoreManagerDBModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="StoreManagerDBModel.ProductLocation" Role="ProductLocation1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="ProductLocation1">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CardInformation">
+    <Key>
+      <PropertyRef Name="CardID" />
+    </Key>
+    <Property Type="Int32" Name="CardID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="CardType" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="ProductAdjustment">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="ProductID" Nullable="false" />
+    <Property Type="Int32" Name="LocationID" Nullable="false" />
+    <Property Type="Int32" Name="ProductLocationID" Nullable="false" />
+    <Property Type="Int32" Name="CurrentQty" Nullable="false" />
+    <Property Type="Int32" Name="NewQty" Nullable="false" />
+    <Property Type="Int32" Name="Difference" Nullable="false" />
+    <Property Type="DateTime" Name="AdjustmentDate" />
+    <Property Type="String" Name="Remarks" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="EmployeeID" />
+  </EntityType>
+  <Association Name="SaleSaleDetail">
+    <End Type="StoreManagerDBModel.Sale" Role="Sale" Multiplicity="1" />
+    <End Type="StoreManagerDBModel.SaleDetail" Role="SaleDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sale">
+        <PropertyRef Name="SaleID" />
+      </Principal>
+      <Dependent Role="SaleDetail">
+        <PropertyRef Name="SaleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CompanyDetail">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Type="Int32" Name="CompanyID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="CompanyName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Motto" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="CompanyAddress" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="LandLine" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Mobile" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="Binary" Name="Logo" MaxLength="Max" FixedLength="false" />
+    <Property Type="String" Name="City" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Email" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Website" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Fax" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="MiscInfo" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Type="Int32" Name="RoleID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="RoleName" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Type="Int32" Name="UserID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="UserName" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="UserPassword" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="EmployeeID" />
+    <Property Type="DateTime" Name="DateCreated" />
+    <Property Type="DateTime" Name="LastLogInDate" />
+    <Property Type="Int32" Name="RoleID" />
+    <Property Type="Boolean" Name="Active" />
+    <Property Type="Boolean" Name="IsAdmin" />
+  </EntityType>
+  <EntityType Name="Measurement">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="StoreManagerDBModel.FK_MeasurementProduct" FromRole="Measurement" ToRole="Product" />
+    <Property Type="String" Name="Name" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_MeasurementProduct">
+    <End Type="StoreManagerDBModel.Measurement" Role="Measurement" Multiplicity="1" />
+    <End Type="StoreManagerDBModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Measurement">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="MeasurementID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ErrorLog">
+    <Key>
+      <PropertyRef Name="ErrorLogID" />
+    </Key>
+    <Property Type="Int32" Name="ErrorLogID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="CustomMessage" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ExceptionStackTrace" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ExceptionMessage" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="InnerExeptionMessage" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="InnerExceptionStackTrace" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="ExceptionDate" />
+    <Property Type="String" Name="ControlName" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="FormName" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="StockTranfer">
+    <Key>
+      <PropertyRef Name="StockTranferID" />
+    </Key>
+    <Property Type="Int32" Name="StockTranferID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="FromLocationID" />
+    <Property Type="Int32" Name="FromLocationQtyBeforeTranfer" />
+    <Property Type="Int32" Name="FromLocationQtyAfterTransfer" />
+    <Property Type="Int32" Name="ToLocationID" />
+    <Property Type="Int32" Name="ToLocationBeforeTransfer" />
+    <Property Type="Int32" Name="ToLocationAfterTranfer" />
+    <Property Type="Int32" Name="ProductID" />
+    <Property Type="Int32" Name="UserID" />
+    <Property Type="DateTime" Name="TransferDate" />
+    <Property Type="Int32" Name="TransferQty" />
+  </EntityType>
+  <EntityType Name="AccessRight">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="FormID" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="UserID" />
+    <Property Type="Boolean" Name="CanView" />
+    <Property Type="Boolean" Name="CanEdit" />
+  </EntityType>
+  <EntityType Name="LabelSetting">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="ListStart" />
+    <Property Type="Int32" Name="ListEnd" />
+    <Property Type="Int32" Name="LabelLenghth" />
+    <Property Type="Int32" Name="QtyToPrint" />
+    <Property Type="String" Name="BarcodeType" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BorderType" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FontFamily" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ForeColor" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="BarHeight" />
+    <Property Type="Int32" Name="FontSize" />
+    <Property Type="Boolean" Name="ShowTest" />
+    <Property Type="Boolean" Name="ShowBorder" />
+    <Property Type="Boolean" Name="ShowCheckSum" />
+  </EntityType>
+  <EntityType Name="BackupDetail">
+    <Key>
+      <PropertyRef Name="BackupID" />
+    </Key>
+    <Property Type="Int32" Name="BackupID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="DateTime" Name="BackupDate" />
+    <Property Type="String" Name="BackupFolder" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="StartTime" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="EndTime" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Comments" Nullable="false" />
+    <Property Type="Int16" Name="UserID" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustomerPaymentHistory">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="SaleID" />
+    <Property Type="Decimal" Name="PayAmount" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Balance" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="DateTime" Name="PaymentDate" Nullable="false" />
+  </EntityType>
+</Schema>

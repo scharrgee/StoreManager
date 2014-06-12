@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{62DCA5F4-ABE6-481B-BFFA-5BB3CAF5670C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>storeManager.Reporting</RootNamespace>
+    <AssemblyName>storeManager.Reporting</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="frmReportOut.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmReportOut.designer.cs">
+      <DependentUpon>frmReportOut.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmReportParameters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmReportParameters.designer.cs">
+      <DependentUpon>frmReportParameters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenericDataAccess.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportingClass.cs" />
+    <Compile Include="ReportingDataSet.cs">
+      <DependentUpon>ReportingDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportingDataSet.designer.cs">
+      <DependentUpon>ReportingDataSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReportingDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReportingDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="rptCountSheet.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCountSheet.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rptCustomerSalesReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCustomerSalesReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rptExpiryList.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptExpiryList.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rptInvoiceReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptInvoiceReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rptOutOfStock.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptOutOfStock.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rptProductList.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptProductList.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rptReorderList.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptReorderList.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rptSaleDetailsReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptSaleDetailsReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rptStockAdjustments.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStockAdjustments.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rptStockSummary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptStockSummary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UtilityClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="frmReportOut.resx">
+      <DependentUpon>frmReportOut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmReportParameters.resx">
+      <DependentUpon>frmReportParameters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rptCountSheet.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCountSheet.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rptCustomerSalesReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCustomerSalesReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rptExpiryList.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptExpiryList.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rptInvoiceReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptInvoiceReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rptOutOfStock.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptOutOfStock.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rptProductList.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptProductList.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rptReorderList.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptReorderList.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rptSaleDetailsReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSaleDetailsReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rptStockAdjustments.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStockAdjustments.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rptStockSummary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptStockSummary.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="ReportingDataSet.xsc">
+      <DependentUpon>ReportingDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="ReportingDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ReportingDataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ReportingDataSet.xss">
+      <DependentUpon>ReportingDataSet.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\storeManager.BusinessLayer\storeManager.BusinessLayer.csproj">
+      <Project>{1A9B3AEC-2C34-4926-B3BF-B081BA312C85}</Project>
+      <Name>storeManager.BusinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\storeManager.DataAccess\storeManager.DataAccess.csproj">
+      <Project>{2A4286C0-A723-40EA-874B-0FEA349C631E}</Project>
+      <Name>storeManager.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\storeManager.Entities\storeManager.Entities.csproj">
+      <Project>{A89313C3-6243-441A-8112-550228C634BD}</Project>
+      <Name>storeManager.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\storeManager.Infractracture\storeManager.Infractracture.csproj">
+      <Project>{A7BA53F3-1F08-4204-97C1-2F0334B14E71}</Project>
+      <Name>storeManager.Infractracture</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\storeManager.ViewModel\storeManager.ViewModel.csproj">
+      <Project>{0CE67641-AC4D-45FD-9B4D-DD2D5D992EFE}</Project>
+      <Name>storeManager.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,10 @@
+c:\users\kyekyeku\documents\visual studio 2010\Projects\storeManager\storeManager.Entities\bin\Debug\storeManager.Entities.dll
+c:\users\kyekyeku\documents\visual studio 2010\Projects\storeManager\storeManager.Entities\bin\Debug\storeManager.Entities.pdb
+c:\users\kyekyeku\documents\visual studio 2010\Projects\storeManager\storeManager.Entities\obj\Debug\ResolveAssemblyReference.cache
+c:\users\kyekyeku\documents\visual studio 2010\Projects\storeManager\storeManager.Entities\obj\Debug\storeManager.Entities.dll
+c:\users\kyekyeku\documents\visual studio 2010\Projects\storeManager\storeManager.Entities\obj\Debug\storeManager.Entities.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.Entities\bin\Debug\storeManager.Entities.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.Entities\bin\Debug\storeManager.Entities.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.Entities\obj\Debug\storeManager.Entities.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.Entities\obj\Debug\storeManager.Entities.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.Entities\obj\Debug\storeManager.Entities.csprojResolveAssemblyReference.cache

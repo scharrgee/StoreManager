@@ -1,0 +1,13 @@
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.BusinessLayer\bin\Release\storeManager.BusinessLayer.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.BusinessLayer\bin\Release\storeManager.BusinessLayer.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.BusinessLayer\bin\Release\storeManager.DataAccess.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.BusinessLayer\bin\Release\storeManager.Entities.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.BusinessLayer\bin\Release\storeManager.Infractracture.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.BusinessLayer\bin\Release\storeManager.ViewModel.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.BusinessLayer\bin\Release\storeManager.DataAccess.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.BusinessLayer\bin\Release\storeManager.Entities.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.BusinessLayer\bin\Release\storeManager.Infractracture.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.BusinessLayer\bin\Release\storeManager.ViewModel.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.BusinessLayer\obj\Release\storeManager.BusinessLayer.csprojResolveAssemblyReference.cache
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.BusinessLayer\obj\Release\storeManager.BusinessLayer.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.BusinessLayer\obj\Release\storeManager.BusinessLayer.pdb

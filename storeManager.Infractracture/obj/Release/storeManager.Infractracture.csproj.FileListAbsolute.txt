@@ -1,0 +1,4 @@
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.Infractracture\bin\Release\storeManager.Infractracture.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.Infractracture\bin\Release\storeManager.Infractracture.pdb
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.Infractracture\obj\Release\storeManager.Infractracture.dll
+C:\Users\Prince\Documents\Visual Studio 2010\Projects\storeManager\storeManager.Infractracture\obj\Release\storeManager.Infractracture.pdb
